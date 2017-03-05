@@ -2,6 +2,7 @@
 #define SETTINGSWINDOW_H
 
 #include <QDialog>
+#include <QSettings>
 
 namespace Ui {
 class SettingsWindow;
@@ -13,10 +14,15 @@ class SettingsWindow : public QDialog
 
 public:
     explicit SettingsWindow(QWidget *parent = 0);
+    explicit SettingsWindow(QSettings *settings, QWidget *parent = 0);
     ~SettingsWindow();
+
+private slots:
+    void on_databaseLocation_lineEdit_textChanged(const QString &newPath);
 
 private:
     Ui::SettingsWindow *ui;
+    QSettings *gsettings;
 };
 
 #endif // SETTINGSWINDOW_H

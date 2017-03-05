@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QMessageBox>
+#include <QSettings>
 #include "sermontree.h"
 
 namespace Ui {
@@ -24,9 +25,11 @@ private slots:
 
     void on_actionNew_triggered();
 
+    void on_actionPreferences_triggered();
+
 private:
     Ui::MainWindow *ui;
-    SermonTree *sermons;
+    QSettings *globalSettings;
 };
 
 #endif // MAINWINDOW_H

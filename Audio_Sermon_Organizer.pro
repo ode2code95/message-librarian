@@ -14,9 +14,12 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    sermontree.cpp
+    sermontree.cpp \
+    settingswindow.cpp
 
 HEADERS  += mainwindow.h \
-    sermontree.h
+    sermontree.h \
+    settingswindow.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    settingswindow.ui

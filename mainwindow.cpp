@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "settingswindow.h"
 #include <QFileDialog>
 //#include "sermontree.h"
 
@@ -8,7 +9,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    sermons = new SermonTree();
+    globalSettings = new QSettings("Anabaptist Codeblocks Foundation", "Audio Sermon Organizer", this);
 
 }
 
@@ -29,7 +30,13 @@ void MainWindow::on_actionExit_triggered()
 
 void MainWindow::on_actionNew_triggered()
 {
-    QString defaultOpenFrom = "";//sermons.settings.importFrom;
+    QString defaultOpenFrom = globalSettings->value("paths/importFrom", "D:/").toString();
     QString fileName = QFileDialog::getOpenFileName(this,
           tr("Open Audio File"), defaultOpenFrom, tr("Audio Files (*.wav *.mp3)"));
+}
+
+void MainWindow::on_actionPreferences_triggered()
+{
+    SettingsWindow swin(globalSettings, this);
+    swin.exec();
 }
