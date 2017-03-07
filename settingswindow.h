@@ -20,6 +20,8 @@ public:
 private slots:
     void on_databaseLocation_lineEdit_textChanged(const QString &newPath);
 
+    void on_browseLocation_pushButton_clicked();
+
 private:
     Ui::SettingsWindow *ui;
     QSettings *gsettings;
