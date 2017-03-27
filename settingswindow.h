@@ -22,6 +22,10 @@ private slots:
 
     void on_browseLocation_pushButton_clicked();
 
+    void on_browseImportAudioFrom_pushButton_clicked();
+
+    void on_importAudioFrom_lineEdit_textChanged(const QString &newPath);
+
 private:
     Ui::SettingsWindow *ui;
     QSettings *gsettings;

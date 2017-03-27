@@ -5,6 +5,7 @@
 #-------------------------------------------------
 
 QT       += core gui
+QT       += sql
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -14,11 +15,9 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    sermontree.cpp \
     settingswindow.cpp
 
 HEADERS  += mainwindow.h \
-    sermontree.h \
     settingswindow.h
 
 FORMS    += mainwindow.ui \

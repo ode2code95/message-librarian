@@ -4,7 +4,6 @@
 #include <QMainWindow>
 #include <QMessageBox>
 #include <QSettings>
-#include "sermontree.h"
 
 namespace Ui {
 class MainWindow;

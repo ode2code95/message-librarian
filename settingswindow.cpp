@@ -1,6 +1,7 @@
 #include "settingswindow.h"
 #include "ui_settingswindow.h"
 #include <QFileDialog>
+#include <QMessageBox>
 
 SettingsWindow::SettingsWindow(QWidget *parent) :
     QDialog(parent),
@@ -29,7 +30,23 @@ void SettingsWindow::on_databaseLocation_lineEdit_textChanged(const QString &new
     gsettings->setValue("paths/databaseLocation", newPath);
 }
 
+void SettingsWindow::on_importAudioFrom_lineEdit_textChanged(const QString &newPath)
+{
+    gsettings->setValue("paths/importFrom", newPath);
+}
+
 void SettingsWindow::on_browseLocation_pushButton_clicked()
 {
-    ui->databaseLocation_lineEdit->setText(QFileDialog::getExistingDirectory(this, "Choose a folder . . ."));
+    QString newpath = QFileDialog::getExistingDirectory(this, "Choose a drive or folder . . .", ui->databaseLocation_lineEdit->text());
+    if (newpath != "") {   //don't set empty path if user cancelled dialog.
+        ui->databaseLocation_lineEdit->setText(newpath);
+    }
+}
+
+void SettingsWindow::on_browseImportAudioFrom_pushButton_clicked()
+{
+    QString newpath = QFileDialog::getExistingDirectory(this, "Choose a drive or folder . . .", ui->importAudioFrom_lineEdit->text());
+    if (newpath != "") {   //don't set empty path if user cancelled dialog.
+        ui->importAudioFrom_lineEdit->setText(newpath);
+    }
 }

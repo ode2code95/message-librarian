@@ -32,7 +32,7 @@
      <x>9</x>
      <y>50</y>
      <width>381</width>
-     <height>80</height>
+     <height>131</height>
     </rect>
    </property>
    <property name="title">
@@ -42,7 +42,7 @@
     <property name="geometry">
      <rect>
       <x>8</x>
-      <y>16</y>
+      <y>65</y>
       <width>367</width>
       <height>54</height>
      </rect>
@@ -69,6 +69,9 @@
          <height>16777215</height>
         </size>
        </property>
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
       </widget>
      </item>
      <item row="1" column="0">
@@ -91,6 +94,9 @@
          <width>16777215</width>
          <height>16777215</height>
         </size>
+       </property>
+       <property name="readOnly">
+        <bool>true</bool>
        </property>
       </widget>
      </item>
@@ -127,6 +133,22 @@
       </widget>
      </item>
     </layout>
+   </widget>
+   <widget class="QLabel" name="label_4">
+    <property name="geometry">
+     <rect>
+      <x>48</x>
+      <y>20</y>
+      <width>281</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;Do not change the database location unless you manually copy the database file to the new directory. Otherwise, you will not be able to access stored sermons!&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+    <property name="wordWrap">
+     <bool>true</bool>
+    </property>
    </widget>
   </widget>
  </widget>
