@@ -77,12 +77,12 @@ bool CreateNewDatabase()
 {
     QSqlQuery query("CREATE TABLE sermon ("
                      "id INTEGER PRIMARY KEY AUTOINCREMENT,"
-                     "title VARCHAR(40) NOT NULL,"
+                     "title CLOB NOT NULL,"
                      "speaker VARCHAR(40) NOT NULL,"
                      "location VARCHAR(40) NOT NULL,"
                      "date VARCHAR(40) NOT NULL,"
                      "description VARCHAR(40) NOT NULL,"
-                     "transcription VARCHAR(200) NOT NULL);", QSqlDatabase::database());
+                     "transcription CLOB NOT NULL);", QSqlDatabase::database());
 
     if (!query.isActive()) {
         QMessageBox::warning(0, "Error", "Cannot create new database. Error details: " +
