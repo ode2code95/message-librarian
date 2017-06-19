@@ -36,7 +36,8 @@ bool InitDatabase()
     bool ok = db.open();
 
     if (!ok) {
-        QMessageBox::warning(0, "Error", "Cannot open database. Please contact your support team for assistance.");
+        QMessageBox::warning(0, "Error", "Cannot open database. Error details: " + db.lastError().text() +
+                             "\nPlease contact your support team for assistance.");
     }
 
     return ok;
@@ -57,7 +58,7 @@ bool LoadDatabase()
     model.setData(model.index(row, 6), "Greetings in Jesus' name this morning . . .");*/
     if (model.lastError().type() != QSqlError::NoError) {
         int result = QMessageBox::warning(0, "Error", "Cannot load database. Error details: " + model.lastError().text() +
-                                          "\n Do you want to initialize a new one with default values?",
+                                          "\nDo you want to initialize a new one with default values?",
                                           QMessageBox::Yes, QMessageBox::No, QMessageBox::NoButton);
         if (result == QMessageBox::Yes) {
             if (CreateNewDatabase()) {
@@ -86,7 +87,7 @@ bool CreateNewDatabase()
 
     if (!query.isActive()) {
         QMessageBox::warning(0, "Error", "Cannot create new database. Error details: " +
-                             query.lastError().text() + "\n Contact your support team for assistance.");
+                             query.lastError().text() + "\n Please contact your support team for assistance.");
         return false;
     }
     return true;

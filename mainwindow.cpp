@@ -1,8 +1,18 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "settingswindow.h"
-#include <QFileDialog>
-#include <QDate>
+#include "newentry.h"
+
+#define ABOUTTEXT \
+    "<i><b>Audio Sermon Organizer</b> © 2017 by Stanley Gehman and ACF.</i><p>"\
+    "This software is intended to increase the organizational efforts of those "\
+    "responsible to maintain audio sermon libraries. It is free of charge; however, "\
+    "if you wish to contribute to the project either by code or financial "\
+    "assistance, we do welcome your input. Due to the nature of free software, "\
+    "we do not provide any warranty, expressed or implied.<p>Tech support may be "\
+    "somewhat limited, but we encourage you to report bugs and request new "\
+    "features. We look forward to hearing from you.<p>Contact: <b>Stanley Gehman</b> "\
+    "Email: <b><u>sg.tla@emypeople.net</u></b> Phone: <b>(240) 587 - 2904</b>"\
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -20,7 +30,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_actionAbout_triggered()
 {
-    QMessageBox::aboutQt(this);
+    QMessageBox::about(this, "Audio Sermon Organizer", ABOUTTEXT);
 }
 
 void MainWindow::on_actionExit_triggered()
@@ -30,16 +40,17 @@ void MainWindow::on_actionExit_triggered()
 
 void MainWindow::on_actionNew_triggered()
 {
-    QString defaultOpenFrom = globalSettings->value("paths/importFrom", "D:/").toString();
-    QStringList fileNames = QFileDialog::getOpenFileNames(this,
-          tr("Please select a sermon recording . . ."), defaultOpenFrom, tr("Audio Files (*.wav *.mp3)"));
-    if (fileNames.count() == 0) {
-        return;
-    }
+    NewEntry newwin(globalSettings, this);
+    newwin.exec();
 }
 
 void MainWindow::on_actionPreferences_triggered()
 {
     SettingsWindow swin(globalSettings, this);
     swin.exec();
+}
+
+void MainWindow::on_actionAbout_Qt_triggered()
+{
+    QMessageBox::aboutQt(this);
 }

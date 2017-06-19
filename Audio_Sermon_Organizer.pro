@@ -15,10 +15,13 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    settingswindow.cpp
+    settingswindow.cpp \
+    newentry.cpp
 
 HEADERS  += mainwindow.h \
-    settingswindow.h
+    settingswindow.h \
+    newentry.h
 
 FORMS    += mainwindow.ui \
-    settingswindow.ui
+    settingswindow.ui \
+    newentry.ui
