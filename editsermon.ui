@@ -1,71 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <author/>
- <comment/>
- <exportmacro/>
  <class>EditSermon</class>
- <widget name="EditSermon" class="QDialog">
+ <widget class="QDialog" name="EditSermon">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>450</width>
+    <height>385</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget name="buttonBox" class="QDialogButtonBox">
+  <widget class="QWidget" name="layoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>37</x>
+     <y>19</y>
+     <width>381</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="navigationBar_horizontalLayout">
+    <item>
+     <widget class="QPushButton" name="pB_First">
+      <property name="text">
+       <string>&lt;&lt; First</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="pB_Previous">
+      <property name="text">
+       <string>&lt; Previous</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="pB_Next">
+      <property name="text">
+       <string>Next &gt;</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="pB_Last">
+      <property name="text">
+       <string>Last &gt;&gt;</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QLabel" name="importAudio_lbl">
    <property name="geometry">
     <rect>
      <x>30</x>
-     <y>240</y>
-     <width>341</width>
-     <height>32</height>
+     <y>79</y>
+     <width>71</width>
+     <height>21</height>
     </rect>
    </property>
-   <property name="orientation">
-    <enum>Qt::Horizontal</enum>
+   <property name="text">
+    <string>Import Audio:</string>
    </property>
-   <property name="standardButtons">
-    <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+  </widget>
+  <widget class="QTextEdit" name="importAudioFiles_readOnlyEdit">
+   <property name="geometry">
+    <rect>
+     <x>110</x>
+     <y>78</y>
+     <width>251</width>
+     <height>73</height>
+    </rect>
+   </property>
+   <property name="readOnly">
+    <bool>true</bool>
+   </property>
+   <property name="placeholderText">
+    <string>Please select one or more audio files for this sermon . . .</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pB_Browse">
+   <property name="geometry">
+    <rect>
+     <x>370</x>
+     <y>103</y>
+     <width>51</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Browse</string>
+   </property>
+  </widget>
+  <widget class="QWidget" name="gridLayoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>158</y>
+     <width>391</width>
+     <height>161</height>
+    </rect>
+   </property>
+   <layout class="QGridLayout" name="sermonFields_gridLayout">
+    <item row="2" column="3">
+     <widget class="QLineEdit" name="location_lineEdit"/>
+    </item>
+    <item row="3" column="1">
+     <widget class="QLabel" name="date_lbl">
+      <property name="text">
+       <string>Date:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="3">
+     <widget class="QLineEdit" name="title_lineEdit"/>
+    </item>
+    <item row="0" column="1">
+     <widget class="QLabel" name="title_lbl">
+      <property name="text">
+       <string>Title:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1">
+     <widget class="QLabel" name="speaker_lbl">
+      <property name="text">
+       <string>Speaker:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="1">
+     <widget class="QLabel" name="location_lbl">
+      <property name="text">
+       <string>Location:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="1">
+     <widget class="QLabel" name="description_lbl">
+      <property name="text">
+       <string>Description</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="3">
+     <widget class="QLineEdit" name="description_lineEdit"/>
+    </item>
+    <item row="3" column="3">
+     <widget class="QDateEdit" name="dateEdit">
+      <property name="calendarPopup">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="3">
+     <widget class="QLineEdit" name="speaker_lineEdit"/>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="layoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>339</y>
+     <width>391</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="recordManagement_horizontalLayout">
+    <item>
+     <widget class="QPushButton" name="pB_Add">
+      <property name="text">
+       <string>Add</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="pB_Delete">
+      <property name="text">
+       <string>Delete</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <spacer name="recordManagement_horizontalSpacer">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>40</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item>
+     <widget class="QPushButton" name="pB_Close">
+      <property name="text">
+       <string>Close</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QLabel" name="recordIndex_lbl">
+   <property name="geometry">
+    <rect>
+     <x>172</x>
+     <y>55</y>
+     <width>105</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;Record 9999 of 9999&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </widget>
  </widget>
- <pixmapfunction/>
+ <tabstops>
+  <tabstop>title_lineEdit</tabstop>
+  <tabstop>speaker_lineEdit</tabstop>
+  <tabstop>location_lineEdit</tabstop>
+  <tabstop>dateEdit</tabstop>
+  <tabstop>description_lineEdit</tabstop>
+  <tabstop>pB_Browse</tabstop>
+  <tabstop>pB_Add</tabstop>
+  <tabstop>pB_Delete</tabstop>
+  <tabstop>pB_Close</tabstop>
+  <tabstop>pB_First</tabstop>
+  <tabstop>pB_Previous</tabstop>
+  <tabstop>pB_Next</tabstop>
+  <tabstop>pB_Last</tabstop>
+  <tabstop>importAudioFiles_readOnlyEdit</tabstop>
+ </tabstops>
  <resources/>
- <connections>
-  <connection>
-   <sender>buttonBox</sender>
-   <signal>accepted()</signal>
-   <receiver>EditSermon</receiver>
-   <slot>accept()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>248</x>
-     <y>254</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>157</x>
-     <y>274</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>buttonBox</sender>
-   <signal>rejected()</signal>
-   <receiver>EditSermon</receiver>
-   <slot>reject()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>316</x>
-     <y>260</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>286</x>
-     <y>274</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>

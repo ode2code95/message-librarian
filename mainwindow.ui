@@ -28,9 +28,8 @@
      <string>File</string>
     </property>
     <addaction name="actionOpen"/>
-    <addaction name="actionNew"/>
-    <addaction name="actionSave"/>
-    <addaction name="actionClose"/>
+    <addaction name="actionEdit"/>
+    <addaction name="actionPublish"/>
     <addaction name="separator"/>
     <addaction name="actionExit"/>
    </widget>
@@ -66,15 +65,27 @@
    <property name="text">
     <string>Open</string>
    </property>
-  </action>
-  <action name="actionNew">
-   <property name="text">
-    <string>New</string>
+   <property name="toolTip">
+    <string>View transcribed text, with audio transport controls.</string>
    </property>
   </action>
-  <action name="actionSave">
+  <action name="actionEdit">
    <property name="text">
-    <string>Save</string>
+    <string>Edit</string>
+   </property>
+   <property name="toolTip">
+    <string>Edit sermon metadata and audio file bindings</string>
+   </property>
+  </action>
+  <action name="actionPublish">
+   <property name="text">
+    <string>Publish</string>
+   </property>
+   <property name="toolTip">
+    <string>Publish selected sermon to CD.</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+P</string>
    </property>
   </action>
   <action name="actionClose">

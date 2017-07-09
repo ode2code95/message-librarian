@@ -16,12 +16,14 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     settingswindow.cpp \
-    newentry.cpp
+    databasesupport.cpp \
+    editsermon.cpp
 
 HEADERS  += mainwindow.h \
     settingswindow.h \
-    newentry.h
+    databasesupport.h \
+    editsermon.h
 
 FORMS    += mainwindow.ui \
     settingswindow.ui \
-    newentry.ui
+    editsermon.ui

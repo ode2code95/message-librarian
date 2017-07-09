@@ -1,7 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "settingswindow.h"
-#include "newentry.h"
+#include "editsermon.h"
 
 #define ABOUTTEXT \
     "<i><b>Audio Sermon Organizer</b> © 2017 by Stanley Gehman and ACF.</i><p>"\
@@ -38,9 +38,9 @@ void MainWindow::on_actionExit_triggered()
     QCoreApplication::quit();
 }
 
-void MainWindow::on_actionNew_triggered()
+void MainWindow::on_actionEdit_triggered()
 {
-    NewEntry newwin(globalSettings, this);
+    EditSermon newwin(globalSettings, this, 0); //Store id in settings and restore here.
     newwin.exec();
 }
 
