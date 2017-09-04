@@ -4,15 +4,15 @@
 #include "editsermon.h"
 
 #define ABOUTTEXT \
-    "<i><b>Audio Sermon Organizer</b> © 2017 by Stanley Gehman and ACF.</i><p>"\
-    "This software is intended to increase the organizational efforts of those "\
+    "<i><b>Audio Sermon Organizer</b> © 2017 by Stanley B. Gehman.</i><p>"\
+    "This software is intended to assist the organizational efforts of those "\
     "responsible to maintain audio sermon libraries. It is free of charge; however, "\
-    "if you wish to contribute to the project either by code or financial "\
+    "if you wish to contribute to the project either through code or financial "\
     "assistance, we do welcome your input. Due to the nature of free software, "\
     "we do not provide any warranty, expressed or implied.<p>Tech support may be "\
     "somewhat limited, but we encourage you to report bugs and request new "\
     "features. We look forward to hearing from you.<p>Contact: <b>Stanley Gehman</b> "\
-    "Email: <b><u>sg.tla@emypeople.net</u></b> Phone: <b>(240) 587 - 2904</b>"\
+    "Email: <b><u>sg.tla@emypeople.net</u></b> Phone: <b>(217) 254 - 4403</b>"\
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),

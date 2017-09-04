@@ -10,6 +10,7 @@
 #include <QSqlRecord>
 #include <QSqlTableModel>
 #include <QDataWidgetMapper>
+#include <QCloseEvent>
 
 enum {
     Sermon_ID = 0,
@@ -51,6 +52,8 @@ private slots:
     void on_pB_Add_clicked();
 
     void on_pB_Delete_clicked();
+
+    void closeEvent(QCloseEvent *event);
 
 private:
     Ui::EditSermon *ui;

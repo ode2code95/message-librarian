@@ -28,7 +28,7 @@ bool DatabaseSupport::LoadDatabase()
 {
     QSqlTableModel model(0, QSqlDatabase::database());
     model.setTable("sermon");
-    // Test code;
+    /*// Test code;
     int row = 0;
     model.insertRows(row, 1);
     model.setData(model.index(row, 1), "The Fear of the Lord is the Beginning of Wisdom");
@@ -37,7 +37,7 @@ bool DatabaseSupport::LoadDatabase()
     model.setData(model.index(row, 4), QDate::currentDate());
     model.setData(model.index(row, 5), "4th Sunday Morning");
     model.setData(model.index(row, 6), "Greetings in Jesus' name this morning . . .");
-    model.submit();
+    model.submit();*/
     if (model.lastError().type() != QSqlError::NoError) {
         int result = QMessageBox::warning(0, "Error", "Cannot load database. Error details: " + model.lastError().text() +
                                           "\nDo you want to initialize a new one with default values?",

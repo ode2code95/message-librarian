@@ -35,6 +35,7 @@ EditSermon::EditSermon(QSettings *settings, QWidget *parent, int id) :
             }
             else {
                 sermonDataMapper->toFirst();
+                UpdateRecordIndexLabel();
             }
         }
     } else {
@@ -60,24 +61,28 @@ EditSermon::~EditSermon()
 
 void EditSermon::toFirstSermon()
 {
+    sermonDataMapper->submit();
     sermonDataMapper->toFirst();
     UpdateRecordIndexLabel();
 }
 
 void EditSermon::toPreviousSermon()
 {
+    sermonDataMapper->submit();
     sermonDataMapper->toPrevious();
     UpdateRecordIndexLabel();
 }
 
 void EditSermon::toNextSermon()
 {
+    sermonDataMapper->submit();
     sermonDataMapper->toNext();
     UpdateRecordIndexLabel();
 }
 
 void EditSermon::toLastSermon()
 {
+    sermonDataMapper->submit();
     sermonDataMapper->toLast();
     UpdateRecordIndexLabel();
 }
@@ -107,14 +112,62 @@ void EditSermon::on_pB_Browse_clicked()
 
 void EditSermon::on_pB_Close_clicked()
 {
+    QDialog::close();
+}
+
+void EditSermon::on_pB_Add_clicked()
+{
+    int row = sermonDataMapper->currentIndex();
+    sermonDataMapper->submit();
+    row++;
+    sermonTableModel->insertRow(row);
+    sermonDataMapper->setCurrentIndex(row);
+    UpdateRecordIndexLabel();
+
+    ui->title_lineEdit->clear();
+    ui->speaker_lineEdit->clear();
+    ui->location_lineEdit->clear();
+    ui->dateEdit->setDate(QDate::currentDate());
+    ui->description_lineEdit->clear();
+    ui->title_lineEdit->setFocus();
+}
+
+void EditSermon::on_pB_Delete_clicked()
+{
+    int row = sermonDataMapper->currentIndex();
+    sermonTableModel->removeRow(row);
+    sermonTableModel->select(); // Added this to pull database changes back into the table model. Previously deleted rows remained as empty entries until the next reload of the window.
+    sermonDataMapper->submit();
+    sermonDataMapper->setCurrentIndex(qMin(row, sermonTableModel->rowCount() - 1));
+    UpdateRecordIndexLabel();
+}
+
+void EditSermon::UpdateRecordIndexLabel()
+{
+    ui->recordIndex_lbl->setText(QString("<html><head/><body><p align=center><span style= color:#ff0000;>Record %1 of %2</span></p></body></html>").arg(sermonDataMapper->currentIndex() + 1).arg(sermonTableModel->rowCount()));
+}
+
+void EditSermon::closeEvent(QCloseEvent *event)
+{
     if (importFileNames.isEmpty() ||
             ui->title_lineEdit->text() == "" ||
             ui->speaker_lineEdit->text() == "" ||
             ui->location_lineEdit->text() == "" ||
             ui->description_lineEdit->text() == "") {
-        QMessageBox::critical(this, "Invalid Entry!", "One or more of the fields is <b><i>empty!</i></b> Please check your entries and try again!");
-        return;
+        int rvalue = QMessageBox::critical(this, "Warning!", "One or more of the fields is <b><i>empty!</i></b> If you ignore this message, your entry will be incomplete!",
+                                           QMessageBox::Cancel, QMessageBox::Ignore, QMessageBox::NoButton);
+        if (rvalue == QMessageBox::Cancel)
+        {
+            event->ignore();
+            return;
+        }
+        qDebug("User ignored warning. Continuing with partial entry.");
+        event->accept();
     }
+
+    qDebug("Dialog closing. Saving changes . . .");
+    sermonDataMapper->submit();
+
     QString destDir = gsettings->value("paths/databaseLocation", "C:/Audio Sermon Database").toString();
     QString UUID = QUuid::createUuid().toString();
     QDir objDestDir(destDir);
@@ -131,38 +184,4 @@ void EditSermon::on_pB_Close_clicked()
     Also remember to record UUID!
     . . .
     */
-    QDialog::close();
-}
-
-void EditSermon::on_pB_Add_clicked()
-{
-    int row = sermonDataMapper->currentIndex();
-    bool result = sermonDataMapper->submit();
-    if (!result) {
-        QMessageBox::about(this, "Result printout", "Submit error!\nError Text: " + sermonTableModel->lastError().text());
-    } else {
-        QMessageBox::about(this, "Result printout", "No error found.");
-    }
-    sermonTableModel->insertRow(row);
-    sermonDataMapper->setCurrentIndex(row);
-
-    ui->title_lineEdit->clear();
-    ui->speaker_lineEdit->clear();
-    ui->location_lineEdit->clear();
-    ui->dateEdit->setDate(QDate::currentDate());
-    ui->description_lineEdit->clear();
-    ui->title_lineEdit->setFocus();
-}
-
-void EditSermon::on_pB_Delete_clicked()
-{
-    int row = sermonDataMapper->currentIndex();
-    sermonTableModel->removeRow(row);
-    sermonDataMapper->submit();
-    sermonDataMapper->setCurrentIndex(qMin(row, sermonTableModel->rowCount() - 1));
-}
-
-void EditSermon::UpdateRecordIndexLabel()
-{
-    ui->recordIndex_lbl->setText(QString("Record %1 of %2").arg(sermonDataMapper->currentIndex() + 1).arg(sermonTableModel->rowCount()));
 }
