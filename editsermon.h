@@ -8,6 +8,7 @@
 #include <Qmessagebox>
 #include <QUuid>
 #include <QSqlRecord>
+#include <QSqlField>
 #include <QSqlTableModel>
 #include <QDataWidgetMapper>
 #include <QCloseEvent>
@@ -31,10 +32,8 @@ class EditSermon : public QDialog
     Q_OBJECT
 
 public:
-    explicit EditSermon(QSettings *settings, QWidget *parent = 0, int id = -1);
+    explicit EditSermon(QSettings *settings, QWidget *parent = 0, QString id = "");
     ~EditSermon();
-
-    void UpdateRecordIndexLabel();
 
 private slots:
     void toFirstSermon();
@@ -58,9 +57,13 @@ private slots:
 private:
     Ui::EditSermon *ui;
     QSettings *gsettings;
-    QStringList importFileNames;
+    QStringList audioFileNames;
     QSqlTableModel *sermonTableModel;
     QDataWidgetMapper *sermonDataMapper;
+
+    void UpdateRecordIndexLabel();
+    void GenerateNewEntry();
+    void UpdateAudioFileListing();
 };
 
 #endif // EDITSERMON_H

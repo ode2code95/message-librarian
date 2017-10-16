@@ -40,7 +40,7 @@ void MainWindow::on_actionExit_triggered()
 
 void MainWindow::on_actionEdit_triggered()
 {
-    EditSermon newwin(globalSettings, this, 0); //Store id in settings and restore here.
+    EditSermon newwin(globalSettings, this, ""); //Store id in settings and restore here.
     newwin.exec();
 }
 

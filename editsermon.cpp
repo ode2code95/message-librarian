@@ -5,7 +5,9 @@
 #include <QSqlQueryModel>
 #include <QSqlError>
 
-EditSermon::EditSermon(QSettings *settings, QWidget *parent, int id) :
+#include <QDebug> //may remove when debugging is finished.
+
+EditSermon::EditSermon(QSettings *settings, QWidget *parent, QString id) :
     QDialog(parent),
     ui(new Ui::EditSermon), gsettings(settings)
 {
@@ -26,16 +28,18 @@ EditSermon::EditSermon(QSettings *settings, QWidget *parent, int id) :
     sermonDataMapper->addMapping(ui->dateEdit, Sermon_Date);
     sermonDataMapper->addMapping(ui->description_lineEdit, Sermon_Description);
 
-    if (id != -1) {
+    if (id != "$#_Create_New") {
+        bool foundMatch = false;
         for (int row = 0; row < sermonTableModel->rowCount(); ++row) {
             QSqlRecord record = sermonTableModel->record(row);
-            if (record.value(Sermon_ID).toInt() == id) {
+            if (!record.field(Sermon_ID).isNull() && record.value(Sermon_ID).toString() == id) {
+                foundMatch = true;
                 sermonDataMapper->setCurrentIndex(row);
                 break;
             }
-            else {
+            else if ((row == sermonTableModel->rowCount() - 1) && !foundMatch) {
+                qDebug("No match found! Initializing table with first entry.");
                 sermonDataMapper->toFirst();
-                UpdateRecordIndexLabel();
             }
         }
     } else {
@@ -44,6 +48,7 @@ EditSermon::EditSermon(QSettings *settings, QWidget *parent, int id) :
         sermonTableModel->insertRow(row);
         sermonDataMapper->setCurrentIndex(row);
     }
+    UpdateRecordIndexLabel();
 
     connect(ui->pB_First, SIGNAL(clicked()), this, SLOT(toFirstSermon()));
     connect(ui->pB_Previous, SIGNAL(clicked()), this, SLOT(toPreviousSermon()));
@@ -90,16 +95,16 @@ void EditSermon::toLastSermon()
 void EditSermon::on_pB_Browse_clicked()
 {
     QString defaultOpenFrom = gsettings->value("paths/importFrom", "D:/").toString();
-    importFileNames = QFileDialog::getOpenFileNames(this,
+    audioFileNames = QFileDialog::getOpenFileNames(this,
           tr("Please select a sermon recording . . ."), defaultOpenFrom, tr("Audio Files (*.wav *.mp3)"));
-    if (importFileNames.isEmpty()) {
+    if (audioFileNames.isEmpty()) {
         return;
     }
     QString fileName = "";
     QString fileNamesList = "";
-    foreach (fileName, importFileNames) {
+    foreach (fileName, audioFileNames) {
         QString newlineChar = "";
-        if (importFileNames.count() > 1) {
+        if (audioFileNames.count() > 1) {
             newlineChar = "\n";
         }
         QStringList splitPath = fileName.split("/");
@@ -145,11 +150,12 @@ void EditSermon::on_pB_Delete_clicked()
 void EditSermon::UpdateRecordIndexLabel()
 {
     ui->recordIndex_lbl->setText(QString("<html><head/><body><p align=center><span style= color:#ff0000;>Record %1 of %2</span></p></body></html>").arg(sermonDataMapper->currentIndex() + 1).arg(sermonTableModel->rowCount()));
+    UpdateAudioFileListing();
 }
 
 void EditSermon::closeEvent(QCloseEvent *event)
 {
-    if (importFileNames.isEmpty() ||
+    if (audioFileNames.isEmpty() ||
             ui->title_lineEdit->text() == "" ||
             ui->speaker_lineEdit->text() == "" ||
             ui->location_lineEdit->text() == "" ||
@@ -168,20 +174,58 @@ void EditSermon::closeEvent(QCloseEvent *event)
     qDebug("Dialog closing. Saving changes . . .");
     sermonDataMapper->submit();
 
+    //Check to see if UUID has been generated already. If not, make a new one.
+    //All read/write operations will reference the directory that matches the UUID.
+    //Therefore we do not need to explicitly store file names in the database.
+    if (sermonTableModel->record(sermonDataMapper->currentIndex()).field(Sermon_ID).isNull()) {
+        qDebug("Null value detected!");
+        if (!audioFileNames.isEmpty()) {
+            //No UUID but there are files to save,
+            //so create a new entry and copy in the files.
+            GenerateNewEntry();
+        }
+    }
+}
+
+void EditSermon::GenerateNewEntry() {
+    qDebug("Creating entry and copying files . . .");
     QString destDir = gsettings->value("paths/databaseLocation", "C:/Audio Sermon Database").toString();
     QString UUID = QUuid::createUuid().toString();
     QDir objDestDir(destDir);
     objDestDir.mkdir(UUID);
-    QString fileName;
-    foreach (fileName, importFileNames) {
+    QString fileName = "";
+    foreach (fileName, audioFileNames) {
         QStringList splitPath = fileName.split("/");
         QString nameOnly = splitPath.at(splitPath.count() - 1);
         QFile::copy(fileName, destDir + "/" + UUID + "/" + nameOnly);
     }
+    //Write the new UUID back to the database.
+    sermonTableModel->record(sermonDataMapper->currentIndex()).setValue(Sermon_ID, UUID);
+    //debugging
+    //here we will find out why the UUID is not being saved!
+    //endofdebugging
+    sermonTableModel->submit();
+}
 
-    /*Database recording of metadata fields will go here
-    . . .
-    Also remember to record UUID!
-    . . .
-    */
+void EditSermon::UpdateAudioFileListing() {
+    if (!sermonTableModel->record(sermonDataMapper->currentIndex()).field(Sermon_ID).isNull()) {
+        //The current database field does contain a valid UUID.
+        QString sourceDir = gsettings->value("paths/databaseLocation", "C:/Audio Sermon Database").toString();
+        QString UUID = sermonTableModel->record(sermonDataMapper->currentIndex()).value(Sermon_ID).toString();
+        qDebug("Got this far. Anything following?");    //qDebug() << UUID;
+        QDir objSourceDir = (sourceDir + "/" + UUID);
+        QString fileName = "";
+        QString fileNamesList = "";
+        audioFileNames = objSourceDir.entryList(QDir::Files, QDir::Name);
+        foreach (fileName, audioFileNames) {
+            QString newlineChar = "";
+            if (audioFileNames.count() > 1) {
+                newlineChar = "\n";
+            }
+            QStringList splitPath = fileName.split("/");
+            QString nameOnly = splitPath.at(splitPath.count() - 1);
+            fileNamesList += nameOnly + newlineChar;
+        }
+        ui->importAudioFiles_readOnlyEdit->setText(fileNamesList);
+    }
 }

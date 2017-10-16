@@ -59,7 +59,7 @@ bool DatabaseSupport::LoadDatabase()
 bool DatabaseSupport::CreateNewDatabase()
 {
     QSqlQuery query("CREATE TABLE sermon ("
-                     "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                     "id VARCHAR(40),"
                      "title CLOB NOT NULL,"
                      "speaker VARCHAR(40) NOT NULL,"
                      "location VARCHAR(40) NOT NULL,"
