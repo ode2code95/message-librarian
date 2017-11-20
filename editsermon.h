@@ -62,7 +62,10 @@ private:
     QDataWidgetMapper *sermonDataMapper;
 
     void UpdateRecordIndexLabel();
+    bool ValidateEntry();
     void GenerateNewEntry();
+    void RemoveSermon(bool permanentlyDeleteFiles);
+    void RemoveEntry();
     void UpdateAudioFileListing();
 };
 

@@ -1,4 +1,5 @@
 #include "databasesupport.h"
+#include "editsermon.h"
 
 #include <QDate>
 
@@ -11,6 +12,11 @@ bool DatabaseSupport::InitDatabase()
 {
     QSettings settings("Anabaptist Codeblocks Foundation", "Audio Sermon Organizer");
     QString dbpath = settings.value("paths/databaseLocation", "C:/Audio Sermon Database").toString();
+    if (!QDir(dbpath).exists()) {
+        qDebug("Creating default database directory . . .");
+        if(!QDir(dbpath).mkpath(dbpath))
+            qDebug("Error creating parent directory!");
+    }
 
     QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
     db.setDatabaseName(dbpath + "/Audio_Sermon_Database.db");
@@ -28,16 +34,7 @@ bool DatabaseSupport::LoadDatabase()
 {
     QSqlTableModel model(0, QSqlDatabase::database());
     model.setTable("sermon");
-    /*// Test code;
-    int row = 0;
-    model.insertRows(row, 1);
-    model.setData(model.index(row, 1), "The Fear of the Lord is the Beginning of Wisdom");
-    model.setData(model.index(row, 2), "Lloyd Mast");
-    model.setData(model.index(row, 3), "Mechanicsville Mennonite Church");
-    model.setData(model.index(row, 4), QDate::currentDate());
-    model.setData(model.index(row, 5), "4th Sunday Morning");
-    model.setData(model.index(row, 6), "Greetings in Jesus' name this morning . . .");
-    model.submit();*/
+
     if (model.lastError().type() != QSqlError::NoError) {
         int result = QMessageBox::warning(0, "Error", "Cannot load database. Error details: " + model.lastError().text() +
                                           "\nDo you want to initialize a new one with default values?",
@@ -72,6 +69,7 @@ bool DatabaseSupport::CreateNewDatabase()
                              query.lastError().text() + "\n Please contact your support team for assistance.");
         return false;
     }
+
     return true;
 }
 

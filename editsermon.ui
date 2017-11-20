@@ -63,7 +63,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Import Audio:</string>
+    <string>Audio Files:</string>
    </property>
   </widget>
   <widget class="QTextEdit" name="importAudioFiles_readOnlyEdit">

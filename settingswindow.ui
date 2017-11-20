@@ -32,7 +32,7 @@
      <x>9</x>
      <y>50</y>
      <width>381</width>
-     <height>131</height>
+     <height>161</height>
     </rect>
    </property>
    <property name="title">
@@ -44,10 +44,68 @@
       <x>8</x>
       <y>65</y>
       <width>367</width>
-      <height>54</height>
+      <height>83</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout">
+     <item row="1" column="2">
+      <widget class="QPushButton" name="browseImportAudioFrom_pushButton">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>40</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>. . .</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="2">
+      <widget class="QPushButton" name="browseLocation_pushButton">
+       <property name="maximumSize">
+        <size>
+         <width>40</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>. . .</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QLineEdit" name="importAudioFrom_lineEdit">
+       <property name="minimumSize">
+        <size>
+         <width>185</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="label_2">
+       <property name="text">
+        <string>Default import audio from:</string>
+       </property>
+      </widget>
+     </item>
      <item row="0" column="0">
       <widget class="QLabel" name="label_3">
        <property name="text">
@@ -74,47 +132,18 @@
        </property>
       </widget>
      </item>
-     <item row="1" column="0">
-      <widget class="QLabel" name="label_2">
+     <item row="2" column="1">
+      <widget class="QLineEdit" name="unpairedStorage_lineEdit"/>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="label_5">
        <property name="text">
-        <string>Default import audio from:</string>
+        <string>Unpaired audio storage:</string>
        </property>
       </widget>
      </item>
-     <item row="1" column="1">
-      <widget class="QLineEdit" name="importAudioFrom_lineEdit">
-       <property name="minimumSize">
-        <size>
-         <width>185</width>
-         <height>0</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>16777215</width>
-         <height>16777215</height>
-        </size>
-       </property>
-       <property name="readOnly">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="2">
-      <widget class="QPushButton" name="browseLocation_pushButton">
-       <property name="maximumSize">
-        <size>
-         <width>40</width>
-         <height>16777215</height>
-        </size>
-       </property>
-       <property name="text">
-        <string>. . .</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="2">
-      <widget class="QPushButton" name="browseImportAudioFrom_pushButton">
+     <item row="2" column="2">
+      <widget class="QPushButton" name="browseUnpairedStorage_pushButton">
        <property name="minimumSize">
         <size>
          <width>0</width>

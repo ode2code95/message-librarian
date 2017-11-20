@@ -20,11 +20,15 @@ public:
 private slots:
     void on_databaseLocation_lineEdit_textChanged(const QString &newPath);
 
+    void on_importAudioFrom_lineEdit_textChanged(const QString &newPath);
+
+    void on_unpairedStorage_lineEdit_textChanged(const QString &newPath);
+
     void on_browseLocation_pushButton_clicked();
 
     void on_browseImportAudioFrom_pushButton_clicked();
 
-    void on_importAudioFrom_lineEdit_textChanged(const QString &newPath);
+    void on_browseUnpairedStorage_pushButton_clicked();
 
 private:
     Ui::SettingsWindow *ui;

@@ -27,3 +27,6 @@ HEADERS  += mainwindow.h \
 FORMS    += mainwindow.ui \
     settingswindow.ui \
     editsermon.ui
+
+DISTFILES += \
+    Future_Developement_Notes
