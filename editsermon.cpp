@@ -32,7 +32,7 @@ EditSermon::EditSermon(QSettings *settings, QWidget *parent, QString id) :
         //User called for new record, or else we need to create one because the table is empty.
         //Insert new row at the end of the table.
         qDebug("New record requested. Initialize table with new row.");
-        int row = qMax(0, sermonTableModel->rowCount() - 1);    //added 'qMax' statement to protect against a negative row reference.
+        int row = qMax(0, sermonTableModel->rowCount());    //added 'qMax' statement to protect against a negative row reference.
         sermonTableModel->insertRow(row);
         sermonDataMapper->setCurrentIndex(row);
     } else {
@@ -130,9 +130,6 @@ void EditSermon::on_pB_Browse_clicked()
 
 void EditSermon::on_pB_Close_clicked()
 {
-    if (!ValidateEntry())
-        return; //Dialog missing some data and user opted to continue editing.
-
     QDialog::close();
 }
 
@@ -189,14 +186,30 @@ void EditSermon::closeEvent(QCloseEvent *event)
 }
 
 bool EditSermon::ValidateEntry() {
-    if (audioFileNames.isEmpty() ||
+    //Check to see if any fields have been modified
+    bool checkFurther = true;
+    if (audioFileNames.isEmpty() &&
+            ui->title_lineEdit->text() == "" &&
+            ui->speaker_lineEdit->text() == "" &&
+            ui->location_lineEdit->text() == "" &&
+            ui->dateEdit->date() == QDate::currentDate() &&
+            ui->description_lineEdit->text() == "") {
+        int rvalue = QMessageBox::question(this, "Discard?", "This blank entry has not been modified. Do you want to discard it?", QMessageBox::Yes, QMessageBox::No);
+
+        if (rvalue == QMessageBox::Yes) {
+            RemoveEntry();  //Do this because a new blank record gets inserted into the table model whenever we call for a new entry.
+            checkFurther = false;
+        }
+    }
+    //If so, check to make sure all fields are filled
+    if (checkFurther && (audioFileNames.isEmpty() ||
             ui->title_lineEdit->text() == "" ||
             ui->speaker_lineEdit->text() == "" ||
             ui->location_lineEdit->text() == "" ||
-            ui->description_lineEdit->text() == "") {
-        int rvalue = QMessageBox::critical(this, "Warning!", "One or more of the fields is <b><i>empty!</i></b> If you ignore this message, this entry will be incomplete!",
+            ui->description_lineEdit->text() == "")) {
+        int svalue = QMessageBox::critical(this, "Warning!", "One or more of the fields is <b><i>empty!</i></b> If you ignore this message, this entry will be incomplete!",
                                            QMessageBox::Cancel, QMessageBox::Ignore, QMessageBox::NoButton);
-        if (rvalue == QMessageBox::Cancel)
+        if (svalue == QMessageBox::Cancel)
             return false;
         qDebug("User ignored warning. Continuing with partial entry.");
     }
@@ -307,6 +320,8 @@ void EditSermon::RemoveEntry()
 }
 
 void EditSermon::UpdateAudioFileListing() {
+    audioFileNames.clear(); //Re-set internal list of audio file names for the current entry.
+    ui->importAudioFiles_readOnlyEdit->clear();
     if (!sermonTableModel->record(sermonDataMapper->currentIndex()).field(Sermon_ID).isNull()) {
         //The current database field does contain a valid UUID.
         QString sourceDir = gsettings->value("paths/databaseLocation", "C:/Audio Sermon Database").toString();

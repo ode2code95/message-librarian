@@ -40,7 +40,7 @@ void MainWindow::on_actionExit_triggered()
 
 void MainWindow::on_actionEdit_triggered()
 {
-    EditSermon newwin(globalSettings, this, ""); //Store id in settings and restore here.
+    EditSermon newwin(globalSettings, this, ""); //Here we will set the ID of the currently selected sermon in MainWindow
     newwin.exec();
 }
 
@@ -53,4 +53,25 @@ void MainWindow::on_actionPreferences_triggered()
 void MainWindow::on_actionAbout_Qt_triggered()
 {
     QMessageBox::aboutQt(this);
+}
+
+void MainWindow::on_actionNew_triggered()
+{
+    EditSermon newwin(globalSettings, this, "$#_Create_New"); //Invoke Edit Sermon ui with new blank sermon entry at the end.
+    newwin.exec();
+}
+
+void MainWindow::on_actionOpen_triggered()
+{
+    QMessageBox::critical(this, "Not Implemented Yet", "We're sorry, this feature is not available in this release. Please stay tuned for further developements!");
+}
+
+void MainWindow::on_actionSearch_triggered()
+{
+    QMessageBox::critical(this, "Not Implemented Yet", "We're sorry, this feature is not available in this release. Please stay tuned for further developements!");
+}
+
+void MainWindow::on_actionPublish_triggered()
+{
+    QMessageBox::critical(this, "Not Implemented Yet", "We're sorry, this feature is not available in this release. Please stay tuned for further developements!");
 }

@@ -30,3 +30,6 @@ FORMS    += mainwindow.ui \
 
 DISTFILES += \
     Future_Developement_Notes
+
+RESOURCES += \
+    graphicsandsounds.qrc

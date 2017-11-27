@@ -28,6 +28,14 @@ private slots:
 
     void on_actionAbout_Qt_triggered();
 
+    void on_actionNew_triggered();
+
+    void on_actionOpen_triggered();
+
+    void on_actionSearch_triggered();
+
+    void on_actionPublish_triggered();
+
 private:
     Ui::MainWindow *ui;
     QSettings *globalSettings;
