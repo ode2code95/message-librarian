@@ -167,7 +167,7 @@
      <x>30</x>
      <y>339</y>
      <width>391</width>
-     <height>25</height>
+     <height>26</height>
     </rect>
    </property>
    <layout class="QHBoxLayout" name="recordManagement_horizontalLayout">
@@ -176,12 +176,20 @@
       <property name="text">
        <string>Add</string>
       </property>
+      <property name="icon">
+       <iconset resource="graphicsandsounds.qrc">
+        <normaloff>:/images/add.png</normaloff>:/images/add.png</iconset>
+      </property>
      </widget>
     </item>
     <item>
      <widget class="QPushButton" name="pB_Delete">
       <property name="text">
        <string>Delete</string>
+      </property>
+      <property name="icon">
+       <iconset resource="graphicsandsounds.qrc">
+        <normaloff>:/images/remove.png</normaloff>:/images/remove.png</iconset>
       </property>
      </widget>
     </item>
@@ -202,6 +210,10 @@
      <widget class="QPushButton" name="pB_Close">
       <property name="text">
        <string>Close</string>
+      </property>
+      <property name="icon">
+       <iconset resource="graphicsandsounds.qrc">
+        <normaloff>:/images/exit.png</normaloff>:/images/exit.png</iconset>
       </property>
      </widget>
     </item>
@@ -237,6 +249,8 @@
   <tabstop>pB_Last</tabstop>
   <tabstop>importAudioFiles_readOnlyEdit</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="graphicsandsounds.qrc"/>
+ </resources>
  <connections/>
 </ui>

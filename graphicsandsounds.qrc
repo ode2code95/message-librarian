@@ -6,5 +6,12 @@
         <file>images/open.png</file>
         <file>images/publish.png</file>
         <file>images/search.png</file>
+        <file>images/exit.png</file>
+        <file>images/qt.png</file>
+        <file>images/preferences.png</file>
+        <file>images/add.png</file>
+        <file>images/remove.png</file>
+        <file>images/fail.png</file>
+        <file>images/ok.png</file>
     </qresource>
 </RCC>

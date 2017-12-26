@@ -7,17 +7,13 @@
 
 #include <QDebug> //may remove when debugging is finished.
 
-EditSermon::EditSermon(QSettings *settings, QWidget *parent, QString id) :
+//
+EditSermon::EditSermon(QSettings *settings, QSqlTableModel *mainWinTableModel, QWidget *parent, QString id, QModelIndex index) :
     QDialog(parent),
-    ui(new Ui::EditSermon), gsettings(settings)
+    ui(new Ui::EditSermon), gsettings(settings), sermonTableModel(mainWinTableModel)
 {
     ui->setupUi(this);
     ui->dateEdit->setDate(QDate::currentDate());
-
-    sermonTableModel = new QSqlTableModel(this, QSqlDatabase::database());
-    sermonTableModel->setTable("sermon");
-    sermonTableModel->setSort(Sermon_Date, Qt::AscendingOrder);
-    sermonTableModel->select();
 
     sermonDataMapper = new QDataWidgetMapper(this);
     sermonDataMapper->setSubmitPolicy(QDataWidgetMapper::AutoSubmit);
@@ -35,6 +31,8 @@ EditSermon::EditSermon(QSettings *settings, QWidget *parent, QString id) :
         int row = qMax(0, sermonTableModel->rowCount());    //added 'qMax' statement to protect against a negative row reference.
         sermonTableModel->insertRow(row);
         sermonDataMapper->setCurrentIndex(row);
+    } else if (id == "" && index.isValid()) {
+        sermonDataMapper->setCurrentIndex(index.row());
     } else {
         bool foundMatch = false;
         for (int row = 0; row < sermonTableModel->rowCount(); ++row) {
@@ -43,8 +41,7 @@ EditSermon::EditSermon(QSettings *settings, QWidget *parent, QString id) :
                 foundMatch = true;
                 sermonDataMapper->setCurrentIndex(row);
                 break;
-            }
-            else if ((row == sermonTableModel->rowCount() - 1) && !foundMatch) {
+            } else if ((row == sermonTableModel->rowCount() - 1) && !foundMatch) {
                 qDebug("No match found! Initializing table with first entry.");
                 sermonDataMapper->toFirst();
             }
@@ -61,7 +58,7 @@ EditSermon::EditSermon(QSettings *settings, QWidget *parent, QString id) :
 EditSermon::~EditSermon()
 {
     gsettings = NULL;
-    delete sermonTableModel;
+    sermonTableModel = NULL;
     delete sermonDataMapper;
     delete ui;
 }

@@ -6,20 +6,60 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>600</width>
+    <height>400</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Audio Sermon Organizer</string>
   </property>
-  <widget class="QWidget" name="centralWidget"/>
+  <widget class="QWidget" name="centralWidget">
+   <widget class="QTableView" name="mainSermonTableView">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>600</width>
+      <height>400</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="editTriggers">
+     <set>QAbstractItemView::NoEditTriggers</set>
+    </property>
+    <property name="alternatingRowColors">
+     <bool>true</bool>
+    </property>
+    <property name="selectionMode">
+     <enum>QAbstractItemView::SingleSelection</enum>
+    </property>
+    <property name="selectionBehavior">
+     <enum>QAbstractItemView::SelectRows</enum>
+    </property>
+    <attribute name="horizontalHeaderMinimumSectionSize">
+     <number>250</number>
+    </attribute>
+   </widget>
+  </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>400</width>
+     <width>600</width>
      <height>21</height>
     </rect>
    </property>
@@ -58,7 +98,7 @@
     <enum>TopToolBarArea</enum>
    </attribute>
    <attribute name="toolBarBreak">
-    <bool>true</bool>
+    <bool>false</bool>
    </attribute>
    <addaction name="actionNew"/>
    <addaction name="actionOpen"/>
@@ -70,7 +110,7 @@
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionOpen">
    <property name="icon">
-    <iconset>
+    <iconset resource="graphicsandsounds.qrc">
      <normaloff>:/images/open.png</normaloff>:/images/open.png</iconset>
    </property>
    <property name="text">
@@ -85,7 +125,7 @@
   </action>
   <action name="actionEdit">
    <property name="icon">
-    <iconset>
+    <iconset resource="graphicsandsounds.qrc">
      <normaloff>:/images/edit.png</normaloff>:/images/edit.png</iconset>
    </property>
    <property name="text">
@@ -100,7 +140,7 @@
   </action>
   <action name="actionPublish">
    <property name="icon">
-    <iconset>
+    <iconset resource="graphicsandsounds.qrc">
      <normaloff>:/images/publish.png</normaloff>:/images/publish.png</iconset>
    </property>
    <property name="text">
@@ -113,33 +153,42 @@
     <string>Ctrl+P</string>
    </property>
   </action>
-  <action name="actionClose">
-   <property name="text">
-    <string>Close</string>
-   </property>
-  </action>
   <action name="actionExit">
+   <property name="icon">
+    <iconset resource="graphicsandsounds.qrc">
+     <normaloff>:/images/exit.png</normaloff>:/images/exit.png</iconset>
+   </property>
    <property name="text">
     <string>Exit</string>
    </property>
   </action>
   <action name="actionSearch">
    <property name="icon">
-    <iconset>
+    <iconset resource="graphicsandsounds.qrc">
      <normaloff>:/images/search.png</normaloff>:/images/search.png</iconset>
    </property>
    <property name="text">
     <string>Search</string>
    </property>
+   <property name="toolTip">
+    <string>Look up a sermon by keywords matching title, speaker, time, etc.</string>
+   </property>
   </action>
   <action name="actionPreferences">
+   <property name="icon">
+    <iconset resource="graphicsandsounds.qrc">
+     <normaloff>:/images/preferences.png</normaloff>:/images/preferences.png</iconset>
+   </property>
    <property name="text">
     <string>Preferences</string>
+   </property>
+   <property name="toolTip">
+    <string>User preferences and application settings</string>
    </property>
   </action>
   <action name="actionAbout">
    <property name="icon">
-    <iconset>
+    <iconset resource="graphicsandsounds.qrc">
      <normaloff>:/images/about.png</normaloff>:/images/about.png</iconset>
    </property>
    <property name="text">
@@ -150,20 +199,24 @@
    </property>
   </action>
   <action name="actionAbout_Qt">
+   <property name="icon">
+    <iconset resource="graphicsandsounds.qrc">
+     <normaloff>:/images/qt.png</normaloff>:/images/qt.png</iconset>
+   </property>
    <property name="text">
     <string>About Qt</string>
    </property>
   </action>
   <action name="actionNew">
    <property name="icon">
-    <iconset>
+    <iconset resource="graphicsandsounds.qrc">
      <normaloff>:/images/new.png</normaloff>:/images/new.png</iconset>
    </property>
    <property name="text">
     <string>New</string>
    </property>
    <property name="toolTip">
-    <string>New</string>
+    <string>Create new entry</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+N</string>
@@ -171,6 +224,8 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="graphicsandsounds.qrc"/>
+ </resources>
  <connections/>
 </ui>

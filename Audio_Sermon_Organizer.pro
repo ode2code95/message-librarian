@@ -17,19 +17,21 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     settingswindow.cpp \
     databasesupport.cpp \
-    editsermon.cpp
+    editsermon.cpp \
+    statusindicatordelegate.cpp
 
 HEADERS  += mainwindow.h \
     settingswindow.h \
     databasesupport.h \
-    editsermon.h
+    editsermon.h \
+    statusindicatordelegate.h
 
 FORMS    += mainwindow.ui \
     settingswindow.ui \
     editsermon.ui
 
 DISTFILES += \
-    Future_Developement_Notes
+    Future_Developement_Notes.txt
 
 RESOURCES += \
     graphicsandsounds.qrc

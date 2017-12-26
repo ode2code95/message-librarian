@@ -1,0 +1,35 @@
+Beta Release 0.65
+-----------------
+
+Current Developement Goals before Release
+-----------------------------------------
+
+1. Sermon Meta-data search, showing results in MainWindow table, with reset on Header click.
+2. Publishing CD from Sermon - this button will be unavailable if Sermon has no Audio Bindings
+3. Open Sermon dialog to preview audio. Will also have Publish function available from here, and some day Transcription Controls as well. :)
+
+
+Future Features
+---------------
+
+1. Backup Database - Will copy database file and audio directories to a settings-specified location.
+Optionally removes existing backup to save space.
+
+2. Editable Main Table - Will allow certain data to be editable from the main table, without opening the editor widget. Currently this is possible
+only through a double-click on the row of the data you want to change.
+
+
+Observed Caveats
+----------------
+
+(This section lists small flaws and design inconsistencies that may be overlooked now but should be fixed in future releases.)
+
+1. It is not possible to change which files are paired to a sermon entry after they are initially copied to the database.
+2. The custom rendering delegate for the Audio Binding and Transcription columns does not properly lose focus when we open the editor widget.
+This appears to be a bug within Qt itself, and is only a minor asthetic issue.
+
+
+Online Resources
+----------------
+
+1. Thesaurus - https://www.archlinux.org/packages/extra/any/mythes-en/
