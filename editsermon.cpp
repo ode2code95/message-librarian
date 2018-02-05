@@ -8,9 +8,9 @@
 #include <QDebug> //may remove when debugging is finished.
 
 //
-EditSermon::EditSermon(QSettings *settings, QSqlTableModel *mainWinTableModel, QWidget *parent, QString id, QModelIndex index) :
+EditSermon::EditSermon(QSettings *settings, QSqlTableModel *mainWinTableModel, MainWindow *parent, QString id, QPersistentModelIndex *index) :
     QDialog(parent),
-    ui(new Ui::EditSermon), gsettings(settings), sermonTableModel(mainWinTableModel)
+    ui(new Ui::EditSermon), gsettings(settings), sermonTableModel(mainWinTableModel), parentWindow(parent)
 {
     ui->setupUi(this);
     ui->dateEdit->setDate(QDate::currentDate());
@@ -31,8 +31,39 @@ EditSermon::EditSermon(QSettings *settings, QSqlTableModel *mainWinTableModel, Q
         int row = qMax(0, sermonTableModel->rowCount());    //added 'qMax' statement to protect against a negative row reference.
         sermonTableModel->insertRow(row);
         sermonDataMapper->setCurrentIndex(row);
-    } else if (id == "" && index.isValid()) {
-        sermonDataMapper->setCurrentIndex(index.row());
+    } else if (id == "" && index->isValid()) {
+        sermonDataMapper->setCurrentIndex(index->row());
+        qDebug(QString("Clicked column = %1").arg(index->column()).toLocal8Bit());
+        switch (index->column())
+        {
+        case Sermon_ID:
+            if (index->data().isNull()) {
+                show(); //show the Edit dialog first, then click the Browse button.
+                ui->pB_Browse->click();
+            }
+            break;
+        case Sermon_Title:
+            ui->title_lineEdit->setFocus();
+            break;
+        case Sermon_Speaker:
+            ui->speaker_lineEdit->setFocus();
+            break;
+        case Sermon_Location:
+            ui->location_lineEdit->setFocus();
+            break;
+        case Sermon_Date:
+            ui->dateEdit->setFocus();
+            break;
+        case Sermon_Description:
+            ui->description_lineEdit->setFocus();
+            break;
+        case Sermon_Transcription:
+            //No field for this in Edit. Do nothing
+            break;
+        default:
+            ui->title_lineEdit->setFocus();
+            break;
+        }
     } else {
         bool foundMatch = false;
         for (int row = 0; row < sermonTableModel->rowCount(); ++row) {
@@ -178,8 +209,12 @@ void EditSermon::closeEvent(QCloseEvent *event)
 {
     if (!ValidateEntry())
         event->ignore();
-    else
+    else {
+        //save the current sermonIndex so that we can re-select it in the main window
+        //Eventually the second argument will specify which field in the Edit Sermon window was last active.
+        parentWindow->SetCurrentModelIndex(new QPersistentModelIndex(sermonTableModel->index(sermonDataMapper->currentIndex(), 1)));
         event->accept();
+    }
 }
 
 bool EditSermon::ValidateEntry() {

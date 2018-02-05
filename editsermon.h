@@ -24,7 +24,7 @@ class EditSermon : public QDialog
     Q_OBJECT
 
 public:
-    explicit EditSermon(QSettings *settings, QSqlTableModel *mainWinTableModel, QWidget *parent = 0, QString id = "", QModelIndex index = QModelIndex());
+    explicit EditSermon(QSettings *settings, QSqlTableModel *mainWinTableModel, MainWindow *parent = 0, QString id = "", QPersistentModelIndex *index = new QPersistentModelIndex());
     ~EditSermon();
 
 private slots:
@@ -52,6 +52,7 @@ private:
     QStringList audioFileNames;
     QSqlTableModel *sermonTableModel;
     QDataWidgetMapper *sermonDataMapper;
+    MainWindow *parentWindow;
 
     void UpdateRecordIndexLabel();
     bool ValidateEntry();

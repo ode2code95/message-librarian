@@ -28,6 +28,7 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+    void SetCurrentModelIndex(QPersistentModelIndex *index);
     
 private slots:
     void on_actionAbout_triggered();
@@ -56,6 +57,7 @@ private:
     Ui::MainWindow *ui;
     QSettings *globalSettings;
     QSqlTableModel *sermonTableModel;
+    QPersistentModelIndex *currentModelIndex;
 };
 
 #endif // MAINWINDOW_H

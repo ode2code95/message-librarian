@@ -14,7 +14,6 @@
     "features. We look forward to hearing from you.<p>Contact: <b>Stanley Gehman</b> "\
     "Email: <b><u>sg.tla@emypeople.net</u></b> Phone: <b>(217) 254 - 4403</b>"\
 
-
 #define NOTIMPLEMENTEDTEXT \
     "We're sorry, this feature is not available in this release."\
     "Please stay tuned for further developements!"\
@@ -68,6 +67,13 @@ void MainWindow::closeEvent(QCloseEvent *event)
     event->accept();
 }
 
+//This is a public setter
+void MainWindow::SetCurrentModelIndex(QPersistentModelIndex *index)
+{
+    currentModelIndex = index;
+    ui->mainSermonTableView->selectRow(currentModelIndex->row());
+}
+
 void MainWindow::on_actionAbout_triggered()
 {
     QMessageBox::about(this, "Audio Sermon Organizer", ABOUTTEXT);
@@ -81,7 +87,10 @@ void MainWindow::on_actionExit_triggered()
 
 void MainWindow::on_actionEdit_triggered()
 {
-    EditSermon newwin(globalSettings, sermonTableModel, this, "", ui->mainSermonTableView->currentIndex()); //Here we will set the ID of the currently selected sermon in MainWindow
+    //Here we set the ID of the currently selected sermon in MainWindow
+    currentModelIndex = new QPersistentModelIndex(ui->mainSermonTableView->currentIndex());
+    ui->mainSermonTableView->selectionModel()->reset();  //Added this to force custom delegates to repaint when they lose focus.
+    EditSermon newwin(globalSettings, sermonTableModel, this, "", currentModelIndex);
     newwin.exec();
 }
 
@@ -98,6 +107,7 @@ void MainWindow::on_actionAbout_Qt_triggered()
 
 void MainWindow::on_actionNew_triggered()
 {
+    ui->mainSermonTableView->selectionModel()->reset();  //Added this to force custom delegates to repaint when they lose focus.
     EditSermon newwin(globalSettings, sermonTableModel, this, "$#_Create_New"); //Invoke Edit Sermon ui with new blank sermon entry at the end.
     newwin.exec();
 }
@@ -105,7 +115,6 @@ void MainWindow::on_actionNew_triggered()
 void MainWindow::on_actionOpen_triggered()
 {
     QMessageBox::critical(this, "Not Implemented Yet", NOTIMPLEMENTEDTEXT);
-    //ui->statusBar->set
 }
 
 void MainWindow::on_actionSearch_triggered()
@@ -121,6 +130,8 @@ void MainWindow::on_actionPublish_triggered()
 void MainWindow::on_mainSermonTableView_doubleClicked(const QModelIndex &index)
 {
     //This will eventually OPEN the sermon, not EDIT it.
-    EditSermon newwin(globalSettings, sermonTableModel, this, "", index); //Invoke Edit Sermon ui with current selected row from MainWindow as the current Sermon.
+    currentModelIndex = new QPersistentModelIndex(index);
+    ui->mainSermonTableView->selectionModel()->reset();  //Added this to force custom delegates to repaint when they lose focus.
+    EditSermon newwin(globalSettings, sermonTableModel, this, "", currentModelIndex); //Invoke Edit Sermon ui with current selected row from MainWindow as the current Sermon.
     newwin.exec();
 }

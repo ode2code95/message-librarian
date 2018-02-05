@@ -5,8 +5,10 @@ Current Developement Goals before Release
 -----------------------------------------
 
 1. Sermon Meta-data search, showing results in MainWindow table, with reset on Header click.
+    - possible alternative: show results in child table, with double-click on an item taking you to that sermon in the
+    MainWindow table, from which editing or publishing, and in the future, transcription, may be performed.
 2. Publishing CD from Sermon - this button will be unavailable if Sermon has no Audio Bindings
-3. Open Sermon dialog to preview audio. Will also have Publish function available from here, and some day Transcription Controls as well. :)
+3. Open Sermon dialog to preview audio. Will also have Publish function available from here, and some day Transcription controls as well. :)
 
 
 Future Features
