@@ -13,7 +13,7 @@
 #include <QDataWidgetMapper>
 #include <QCloseEvent>
 
-#include "mainwindow.h" //Imports sermon table enum
+#include "mainwindow.h" //Includes sermon table enum
 
 namespace Ui {
 class EditSermon;

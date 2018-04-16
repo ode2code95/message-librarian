@@ -2,9 +2,10 @@
 #include "ui_mainwindow.h"
 #include "settingswindow.h"
 #include "editsermon.h"
+#include "findsermon.h"
 
 #define ABOUTTEXT \
-    "<i><b>Audio Sermon Organizer</b> © 2017 by Stanley B. Gehman.</i><p>"\
+    "<i><b>Audio Sermon Organizer</b> © 2017 - 2018 by Stanley B. Gehman.</i><p>"\
     "This software is intended to assist the organizational efforts of those "\
     "responsible to maintain audio sermon libraries. It is free of charge; however, "\
     "if you wish to contribute to the project either through code or financial "\
@@ -119,7 +120,9 @@ void MainWindow::on_actionOpen_triggered()
 
 void MainWindow::on_actionSearch_triggered()
 {
-    QMessageBox::critical(this, "Not Implemented Yet", NOTIMPLEMENTEDTEXT);
+    //QMessageBox::critical(this, "Not Implemented Yet", NOTIMPLEMENTEDTEXT);
+    FindSermon findwin(sermonTableModel);
+    findwin.exec();
 }
 
 void MainWindow::on_actionPublish_triggered()

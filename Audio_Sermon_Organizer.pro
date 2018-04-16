@@ -18,17 +18,20 @@ SOURCES += main.cpp\
     settingswindow.cpp \
     databasesupport.cpp \
     editsermon.cpp \
-    statusindicatordelegate.cpp
+    statusindicatordelegate.cpp \
+    findsermon.cpp
 
 HEADERS  += mainwindow.h \
     settingswindow.h \
     databasesupport.h \
     editsermon.h \
-    statusindicatordelegate.h
+    statusindicatordelegate.h \
+    findsermon.h
 
 FORMS    += mainwindow.ui \
     settingswindow.ui \
-    editsermon.ui
+    editsermon.ui \
+    findsermon.ui
 
 DISTFILES += \
     Future_Developement_Notes.txt
