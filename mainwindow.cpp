@@ -121,8 +121,16 @@ void MainWindow::on_actionOpen_triggered()
 void MainWindow::on_actionSearch_triggered()
 {
     //QMessageBox::critical(this, "Not Implemented Yet", NOTIMPLEMENTEDTEXT);
-    FindSermon findwin(sermonTableModel);
-    findwin.exec();
+    if (!findwin->isVisible()) {  //This test avoids stacking multiple copies of the dialog on top of each other
+        findwin = new FindSermon(sermonTableModel, this);
+        //could possibly connect FindNext and FindPrevious signals and slots here, depending on Select implementation limitations.
+        //We would prefer partial match capability instead, in order of closest match.
+    }
+
+    ui->mainSermonTableView->selectionModel()->reset();  //Added this to force custom delegates to repaint when they lose focus.
+    findwin->show();
+    findwin->raise();
+    findwin->activateWindow();
 }
 
 void MainWindow::on_actionPublish_triggered()

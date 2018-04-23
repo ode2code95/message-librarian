@@ -6,6 +6,7 @@
 #include <QSettings>
 #include <QSqlTableModel>
 #include "statusindicatordelegate.h"
+#include "findsermon.h"
 
 enum {
     Sermon_ID = 0,
@@ -58,6 +59,7 @@ private:
     QSettings *globalSettings;
     QSqlTableModel *sermonTableModel;
     QPersistentModelIndex *currentModelIndex;
+    FindSermon *findwin;
 };
 
 #endif // MAINWINDOW_H

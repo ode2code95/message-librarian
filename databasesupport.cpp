@@ -13,9 +13,17 @@ bool DatabaseSupport::InitDatabase()
     QSettings settings("Anabaptist Codeblocks Foundation", "Audio Sermon Organizer");
     QString dbpath = settings.value("paths/databaseLocation", "C:/Audio Sermon Database").toString();
     if (!QDir(dbpath).exists()) {
-        qDebug("Creating default database directory . . .");
-        if(!QDir(dbpath).mkpath(dbpath))
-            qDebug("Error creating parent directory!");
+        //The database path in settings does not exist. Display a message and ask the user what to do.
+        int answer = QMessageBox::warning(0, "Error", "Your sermon library could not be found at the location specified in program settings. Do you want to initialze a new library at <i>" +
+                                        dbpath + "</i>?<p>(If your sermon library is stored on an external disk or network resource, make sure that your computer can access it, and then try starting the program again.)",
+                                        QMessageBox::Yes, QMessageBox::No, QMessageBox::NoButton);
+        if (answer == QMessageBox::Yes) {
+            qDebug("Creating default database directory . . .");
+            if(!QDir(dbpath).mkpath(dbpath))
+                qDebug("Error creating parent directory!");
+        }
+        else
+            return false; //Database path did not exist, and user chose not to create it.
     }
 
     QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
