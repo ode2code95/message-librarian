@@ -31,6 +31,9 @@ MainWindow::MainWindow(QWidget *parent) :
     sermonTableModel->setSort(Sermon_Date, Qt::AscendingOrder);
     sermonTableModel->select();
 
+    sortFilterSermonModel = new QSortFilterProxyModel(this);
+    sortFilterSermonModel->setSourceModel(sermonTableModel);
+
     sermonTableModel->setHeaderData(Sermon_ID, Qt::Horizontal, "Audio Binding");
     sermonTableModel->setHeaderData(Sermon_Title, Qt::Horizontal, "Title");
     sermonTableModel->setHeaderData(Sermon_Speaker, Qt::Horizontal, "Speaker");
@@ -39,7 +42,8 @@ MainWindow::MainWindow(QWidget *parent) :
     sermonTableModel->setHeaderData(Sermon_Description, Qt::Horizontal, "Description");
     sermonTableModel->setHeaderData(Sermon_Transcription, Qt::Horizontal, "Transcription");
 
-    ui->mainSermonTableView->setModel(sermonTableModel);
+    ui->mainSermonTableView->setModel(sortFilterSermonModel);
+    ui->mainSermonTableView->setSortingEnabled(true); //Turn sort-by-header-click on.
     ui->mainSermonTableView->horizontalHeader()->moveSection(Sermon_ID, Sermon_Description);    //Awsome code!! moves columns around in the table view without changing the order in the sql table itself!
     ui->mainSermonTableView->horizontalHeader()->setSectionResizeMode(Sermon_Title, QHeaderView::Stretch);
     ui->mainSermonTableView->resizeColumnsToContents();

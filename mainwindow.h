@@ -59,6 +59,7 @@ private:
     QSettings *globalSettings;
     QSqlTableModel *sermonTableModel;
     QPersistentModelIndex *currentModelIndex;
+    QSortFilterProxyModel *sortFilterSermonModel;
     FindSermon *findwin;
 };
 

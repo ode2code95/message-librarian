@@ -54,11 +54,13 @@ void FindSermon::beginSearch()
     }
 
     ui->clearSearch_pushButton->setEnabled(true);
-    //Here we will take the data from the search fields and compile an SQL querry for use below.
-    QString titleSearchString = "title > 'the' AND "; //NEXT PROJECT: Incorporate partial matching. (I think this will require the SQL LIKE statement.)
+
+    // Use QSortFilterProxyModel Class here instead! Excellent idea! Also sort by header click too!
+
+    /*QString titleSearchString = "title > 'the' AND "; //NEXT PROJECT: Incorporate partial matching. (I think this will require the SQL LIKE statement.)
     QString dateSearchString = "date >= '" + ui->from_dateEdit->date().toString("yyyy-MM-dd") +
             "' AND date <= '" + ui->to_dateEdit->date().toString("yyyy-MM-dd") + "'";
-    mainTableModel->setFilter(titleSearchString + dateSearchString); //"takes a standard SQL WHERE clause without the WHERE"
+    mainTableModel->setFilter(titleSearchString + dateSearchString); //"takes a standard SQL WHERE clause without the WHERE"*/
 }
 
 void FindSermon::on_clearSearch_pushButton_clicked()
