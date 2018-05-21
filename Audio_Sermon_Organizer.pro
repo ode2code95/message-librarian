@@ -19,14 +19,16 @@ SOURCES += main.cpp\
     databasesupport.cpp \
     editsermon.cpp \
     statusindicatordelegate.cpp \
-    findsermon.cpp
+    findsermon.cpp \
+    sermonsortfilterproxymodel.cpp
 
 HEADERS  += mainwindow.h \
     settingswindow.h \
     databasesupport.h \
     editsermon.h \
     statusindicatordelegate.h \
-    findsermon.h
+    findsermon.h \
+    sermonsortfilterproxymodel.h
 
 FORMS    += mainwindow.ui \
     settingswindow.ui \

@@ -31,8 +31,9 @@ MainWindow::MainWindow(QWidget *parent) :
     sermonTableModel->setSort(Sermon_Date, Qt::AscendingOrder);
     sermonTableModel->select();
 
-    sortFilterSermonModel = new QSortFilterProxyModel(this);
+    sortFilterSermonModel = new SermonSortFilterProxyModel();   //Invokes our custom sermon search-and-sort engine
     sortFilterSermonModel->setSourceModel(sermonTableModel);
+    sortFilterSermonModel->setFilterKeyColumn(Sermon_Date);
 
     sermonTableModel->setHeaderData(Sermon_ID, Qt::Horizontal, "Audio Binding");
     sermonTableModel->setHeaderData(Sermon_Title, Qt::Horizontal, "Title");
@@ -126,7 +127,7 @@ void MainWindow::on_actionSearch_triggered()
 {
     //QMessageBox::critical(this, "Not Implemented Yet", NOTIMPLEMENTEDTEXT);
     if (!findwin->isVisible()) {  //This test avoids stacking multiple copies of the dialog on top of each other
-        findwin = new FindSermon(sermonTableModel, this);
+        findwin = new FindSermon(sortFilterSermonModel, this);
         //could possibly connect FindNext and FindPrevious signals and slots here, depending on Select implementation limitations.
         //We would prefer partial match capability instead, in order of closest match.
     }

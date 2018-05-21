@@ -1,9 +1,9 @@
 #include "findsermon.h"
 #include "ui_findsermon.h"
 
-FindSermon::FindSermon(QSqlTableModel *model, QWidget *parent) :
+FindSermon::FindSermon(SermonSortFilterProxyModel *model, QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::FindSermon), mainTableModel(model)
+    ui(new Ui::FindSermon), mainSortFilterModel(model)
 {
     ui->setupUi(this);
 
@@ -30,12 +30,12 @@ FindSermon::FindSermon(QSqlTableModel *model, QWidget *parent) :
 FindSermon::~FindSermon()
 {
     delete ui;
-    mainTableModel = NULL;
+    mainSortFilterModel = NULL;
 }
 
 void FindSermon::closeEvent(QCloseEvent *event)
 {
-    mainTableModel->setFilter("");
+    mainSortFilterModel->resetFilters();
     event->accept();
 }
 
@@ -48,19 +48,25 @@ void FindSermon::beginSearch()
             ui->to_dateEdit->date() == QDate::currentDate() &&
             ui->description_lineEdit->text() == "") { //this edit resulted in default values, so we can reset the search.
 
-        mainTableModel->setFilter("");
+        mainSortFilterModel->resetFilters();
         ui->clearSearch_pushButton->setEnabled(false);
         return;
     }
 
+    // Use QSortFilterProxyModel Class here instead! Excellent idea! <- IN PROGRESS . . .
+    // Also sort by header click too! <- DONE!
+
     ui->clearSearch_pushButton->setEnabled(true);
 
-    // Use QSortFilterProxyModel Class here instead! Excellent idea! Also sort by header click too!
+    QHash<int, QRegExp> searchHash;
+    searchHash.insert(Sermon_Title, QRegExp(ui->title_lineEdit->text()));
+    searchHash.insert(Sermon_Speaker, QRegExp(ui->speaker_lineEdit->text()));
+    searchHash.insert(Sermon_Location, QRegExp(ui->location_lineEdit->text()));
+    searchHash.insert(Sermon_Description, QRegExp(ui->description_lineEdit->text()));
+    mainSortFilterModel->setMultiFilterRegExp(searchHash);
 
-    /*QString titleSearchString = "title > 'the' AND "; //NEXT PROJECT: Incorporate partial matching. (I think this will require the SQL LIKE statement.)
-    QString dateSearchString = "date >= '" + ui->from_dateEdit->date().toString("yyyy-MM-dd") +
-            "' AND date <= '" + ui->to_dateEdit->date().toString("yyyy-MM-dd") + "'";
-    mainTableModel->setFilter(titleSearchString + dateSearchString); //"takes a standard SQL WHERE clause without the WHERE"*/
+    mainSortFilterModel->setFilterMinimumDate(ui->from_dateEdit->date());
+    mainSortFilterModel->setFilterMaximumDate(ui->to_dateEdit->date());
 }
 
 void FindSermon::on_clearSearch_pushButton_clicked()
@@ -72,6 +78,6 @@ void FindSermon::on_clearSearch_pushButton_clicked()
     ui->to_dateEdit->setDate(QDate::currentDate());
     ui->description_lineEdit->clear();
 
-    mainTableModel->setFilter("");
+    mainSortFilterModel->resetFilters();
     ui->clearSearch_pushButton->setEnabled(false);
 }

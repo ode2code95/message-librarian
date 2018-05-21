@@ -2,8 +2,10 @@
 #define FINDSERMON_H
 
 #include <QDialog>
-#include <QSqlTableModel>
 #include <QCloseEvent>
+
+#include "sermonsortfilterproxymodel.h"
+#include "mainwindow.h"
 
 namespace Ui {
 class FindSermon;
@@ -14,7 +16,7 @@ class FindSermon : public QDialog
     Q_OBJECT
 
 public:
-    explicit FindSermon(QSqlTableModel *model, QWidget *parent = 0);
+    explicit FindSermon(SermonSortFilterProxyModel *model, QWidget *parent = 0);
     ~FindSermon();
 
 private slots:
@@ -26,7 +28,7 @@ private slots:
 
 private:
     Ui::FindSermon *ui;
-    QSqlTableModel *mainTableModel;
+    SermonSortFilterProxyModel *mainSortFilterModel;
 };
 
 #endif // FINDSERMON_H
