@@ -5,19 +5,10 @@
 #include <QMessageBox>
 #include <QSettings>
 #include <QSqlTableModel>
+#include "databasesupport.h"
 #include "statusindicatordelegate.h"
 #include "findsermon.h"
 #include "sermonsortfilterproxymodel.h"
-
-enum {
-    Sermon_ID = 0,
-    Sermon_Title = 1,
-    Sermon_Speaker = 2,
-    Sermon_Location = 3,
-    Sermon_Date = 4,
-    Sermon_Description = 5,
-    Sermon_Transcription = 6
-};
 
 namespace Ui {
 class MainWindow;

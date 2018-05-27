@@ -6,7 +6,7 @@
 #include <QHash>
 #include <QRegExp>
 
-#include "mainwindow.h"
+#include "databasesupport.h"
 
 class SermonSortFilterProxyModel : public QSortFilterProxyModel
 {

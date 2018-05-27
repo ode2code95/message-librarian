@@ -25,6 +25,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     globalSettings = new QSettings("Anabaptist Codeblocks Foundation", "Audio Sermon Organizer", this);
+    findwin = NULL;
 
     sermonTableModel = new QSqlTableModel(this, QSqlDatabase::database());
     sermonTableModel->setTable("sermon");
@@ -33,7 +34,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     sortFilterSermonModel = new SermonSortFilterProxyModel();   //Invokes our custom sermon search-and-sort engine
     sortFilterSermonModel->setSourceModel(sermonTableModel);
-    sortFilterSermonModel->setFilterKeyColumn(Sermon_Date);
 
     sermonTableModel->setHeaderData(Sermon_ID, Qt::Horizontal, "Audio Binding");
     sermonTableModel->setHeaderData(Sermon_Title, Qt::Horizontal, "Title");
@@ -43,8 +43,11 @@ MainWindow::MainWindow(QWidget *parent) :
     sermonTableModel->setHeaderData(Sermon_Description, Qt::Horizontal, "Description");
     sermonTableModel->setHeaderData(Sermon_Transcription, Qt::Horizontal, "Transcription");
 
+
+
     ui->mainSermonTableView->setModel(sortFilterSermonModel);
     ui->mainSermonTableView->setSortingEnabled(true); //Turn sort-by-header-click on.
+    ui->mainSermonTableView->horizontalHeader()->setSortIndicator(Sermon_Date, Qt::AscendingOrder); //Specifies the default sort order and column for the table view.
     ui->mainSermonTableView->horizontalHeader()->moveSection(Sermon_ID, Sermon_Description);    //Awsome code!! moves columns around in the table view without changing the order in the sql table itself!
     ui->mainSermonTableView->horizontalHeader()->setSectionResizeMode(Sermon_Title, QHeaderView::Stretch);
     ui->mainSermonTableView->resizeColumnsToContents();
@@ -125,11 +128,8 @@ void MainWindow::on_actionOpen_triggered()
 
 void MainWindow::on_actionSearch_triggered()
 {
-    //QMessageBox::critical(this, "Not Implemented Yet", NOTIMPLEMENTEDTEXT);
-    if (!findwin->isVisible()) {  //This test avoids stacking multiple copies of the dialog on top of each other
+    if (findwin == NULL) {  //This test avoids stacking multiple copies of the dialog on top of each other
         findwin = new FindSermon(sortFilterSermonModel, this);
-        //could possibly connect FindNext and FindPrevious signals and slots here, depending on Select implementation limitations.
-        //We would prefer partial match capability instead, in order of closest match.
     }
 
     ui->mainSermonTableView->selectionModel()->reset();  //Added this to force custom delegates to repaint when they lose focus.

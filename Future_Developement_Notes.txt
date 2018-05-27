@@ -9,6 +9,8 @@ Current Developement Goals before Release
           MainWindow table, from which editing or publishing, and in the future, transcription, may be performed.
 2. Publishing CD from Sermon - this button will be unavailable if Sermon has no Audio Bindings
 3. Open Sermon dialog to preview audio. Will also have Publish function available from here, and some day Transcription controls as well. :)
+4. Publish feature will present choice between "open folder to view files" and "copy files to Windows CD-burning folder,"
+   after determining that the files are burnable audio - not project-specific files, etc.
 
 
 Future Features
@@ -17,8 +19,17 @@ Future Features
 1. Backup Database - Will smart-copy database file and *modified* audio directories to a settings-specified location.
 Optionally removes existing backup to save space.
 
-2. Editable Main Table - Will allow certain data to be editable from the main table, without opening the editor widget. Currently this is possible
+ - Also will be able to synchronize two sermon databases, as long as version numbers match.
+
+2. Detect when a storage device with audio files on the root directory is connected to the computer - for adding a sermon recorded directly to
+CD, thumb drive, or SD card.
+
+3. Editable Main Table - Will allow certain data to be editable from the main table, without opening the editor widget. Currently this is possible
 only through a double-click on the row of the data you want to change.
+
+4. Color-highlighting of matching phrases while search is in progress.
+
+5. Graph of topic coverage in the library.
 
 
 Observed Caveats

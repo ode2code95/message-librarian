@@ -5,7 +5,6 @@
 #include <QCloseEvent>
 
 #include "sermonsortfilterproxymodel.h"
-#include "mainwindow.h"
 
 namespace Ui {
 class FindSermon;
