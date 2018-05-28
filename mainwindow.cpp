@@ -43,8 +43,6 @@ MainWindow::MainWindow(QWidget *parent) :
     sermonTableModel->setHeaderData(Sermon_Description, Qt::Horizontal, "Description");
     sermonTableModel->setHeaderData(Sermon_Transcription, Qt::Horizontal, "Transcription");
 
-
-
     ui->mainSermonTableView->setModel(sortFilterSermonModel);
     ui->mainSermonTableView->setSortingEnabled(true); //Turn sort-by-header-click on.
     ui->mainSermonTableView->horizontalHeader()->setSortIndicator(Sermon_Date, Qt::AscendingOrder); //Specifies the default sort order and column for the table view.

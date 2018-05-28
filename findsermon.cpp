@@ -65,8 +65,8 @@ void FindSermon::beginSearch()
     searchHash.insert(Sermon_Description, QRegExp(ui->description_lineEdit->text()));
     mainSortFilterModel->setMultiFilterRegExp(searchHash);
 
-    mainSortFilterModel->setFilterMinimumDate(ui->from_dateEdit->date());
-    mainSortFilterModel->setFilterMaximumDate(ui->to_dateEdit->date());
+    mainSortFilterModel->setFilterMinimumDate(ui->from_dateEdit->date(), false);
+    mainSortFilterModel->setFilterMaximumDate(ui->to_dateEdit->date()); //Only need to invalidate filter once; save some processing
 }
 
 void FindSermon::on_clearSearch_pushButton_clicked()
