@@ -159,7 +159,30 @@
     <string>Clear Search</string>
    </property>
   </widget>
+  <widget class="QCheckBox" name="caseSensitive_checkBox">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>210</y>
+     <width>151</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Use case-sensitive search</string>
+   </property>
+  </widget>
  </widget>
+ <tabstops>
+  <tabstop>title_lineEdit</tabstop>
+  <tabstop>speaker_lineEdit</tabstop>
+  <tabstop>location_lineEdit</tabstop>
+  <tabstop>from_dateEdit</tabstop>
+  <tabstop>to_dateEdit</tabstop>
+  <tabstop>description_lineEdit</tabstop>
+  <tabstop>caseSensitive_checkBox</tabstop>
+  <tabstop>clearSearch_pushButton</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

@@ -25,6 +25,7 @@ FindSermon::FindSermon(SermonSortFilterProxyModel *model, QWidget *parent) :
     connect(ui->from_dateEdit, SIGNAL(dateChanged(QDate)), this, SLOT(beginSearch()));
     connect(ui->to_dateEdit, SIGNAL(dateChanged(QDate)), this, SLOT(beginSearch()));
     connect(ui->description_lineEdit, SIGNAL(textChanged(QString)), this, SLOT(beginSearch()));
+    connect(ui->caseSensitive_checkBox, SIGNAL(toggled(bool)), this, SLOT(beginSearch()));
 }
 
 FindSermon::~FindSermon()
@@ -57,12 +58,13 @@ void FindSermon::beginSearch()
     // Also sort by header click too! <- DONE!
 
     ui->clearSearch_pushButton->setEnabled(true);
+    Qt::CaseSensitivity caseSense = ui->caseSensitive_checkBox->isChecked() ? Qt::CaseSensitive : Qt::CaseInsensitive;
 
     QHash<int, QRegExp> searchHash;
-    searchHash.insert(Sermon_Title, QRegExp(ui->title_lineEdit->text()));
-    searchHash.insert(Sermon_Speaker, QRegExp(ui->speaker_lineEdit->text()));
-    searchHash.insert(Sermon_Location, QRegExp(ui->location_lineEdit->text()));
-    searchHash.insert(Sermon_Description, QRegExp(ui->description_lineEdit->text()));
+    searchHash.insert(Sermon_Title, QRegExp(ui->title_lineEdit->text(), caseSense));
+    searchHash.insert(Sermon_Speaker, QRegExp(ui->speaker_lineEdit->text(), caseSense));
+    searchHash.insert(Sermon_Location, QRegExp(ui->location_lineEdit->text(), caseSense));
+    searchHash.insert(Sermon_Description, QRegExp(ui->description_lineEdit->text(), caseSense));
     mainSortFilterModel->setMultiFilterRegExp(searchHash);
 
     mainSortFilterModel->setFilterMinimumDate(ui->from_dateEdit->date(), false);
