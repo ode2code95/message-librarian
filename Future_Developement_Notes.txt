@@ -4,9 +4,6 @@ Beta Release 0.65
 Current Developement Goals before Release
 -----------------------------------------
 
-1. Sermon Meta-data search, showing results in MainWindow table, with reset on Header click. <- CHOSEN SOLUTION (see notes in findsermon.cpp)
-    NO: - possible alternative: show results in child table, with double-click on an item taking you to that sermon in the
-          MainWindow table, from which editing or publishing, and in the future, transcription, may be performed.
 2. Publishing CD from Sermon - this button will be unavailable if Sermon has no Audio Bindings
 3. Open Sermon dialog to preview audio. Will also have Publish function available from here, and some day Transcription controls as well. :)
 4. Publish feature will present choice between "open folder to view files" and "copy files to Windows CD-burning folder,"

@@ -11,14 +11,6 @@ FindSermon::FindSermon(SermonSortFilterProxyModel *model, QWidget *parent) :
     ui->from_dateEdit->setDate(QDate::currentDate().addYears(-5));
     ui->to_dateEdit->setDate(QDate::currentDate());
 
-    /*
-     * We have decided to make the search window top-level, so that it floats on top of the Main Window. <- DONE!
-     * Instead of a built-in search-results table, candidates will be SELECTED (with setFilter statement) in the main window <- TODO
-     *  (//NEXT PROJECT: Incorporate partial matching. (I think this will require the SQL LIKE statement.))
-     * until either the search window is closed or the cancel search button in the search window is clicked. <- DONE!
-     * The cancel search button will return to default SELECT of main table, with all search fields cleared. <- DONE!
-     */
-
     connect(ui->title_lineEdit, SIGNAL(textChanged(QString)), this, SLOT(beginSearch()));
     connect(ui->speaker_lineEdit, SIGNAL(textChanged(QString)), this, SLOT(beginSearch()));
     connect(ui->location_lineEdit, SIGNAL(textChanged(QString)), this, SLOT(beginSearch()));
@@ -53,9 +45,6 @@ void FindSermon::beginSearch()
         ui->clearSearch_pushButton->setEnabled(false);
         return;
     }
-
-    // Use QSortFilterProxyModel Class here instead! Excellent idea! <- IN PROGRESS . . .
-    // Also sort by header click too! <- DONE!
 
     ui->clearSearch_pushButton->setEnabled(true);
     Qt::CaseSensitivity caseSense = ui->caseSensitive_checkBox->isChecked() ? Qt::CaseSensitive : Qt::CaseInsensitive;
