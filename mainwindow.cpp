@@ -27,6 +27,11 @@ MainWindow::MainWindow(QWidget *parent) :
     globalSettings = new QSettings("Anabaptist Codeblocks Foundation", "Audio Sermon Organizer", this);
     findwin = NULL;
 
+    InitTableModelAndView();
+}
+
+MainWindow::InitTableModelAndView()
+{
     sermonTableModel = new QSqlTableModel(this, QSqlDatabase::database());
     sermonTableModel->setTable("sermon");
     sermonTableModel->setSort(Sermon_Date, Qt::AscendingOrder);
@@ -57,7 +62,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->mainSermonTableView->selectRow(globalSettings->value("metadata/lastActiveSermon", "0").toInt());
 
     setCentralWidget(ui->mainSermonTableView);
-
 }
 
 MainWindow::~MainWindow()
@@ -138,7 +142,11 @@ void MainWindow::on_actionSearch_triggered()
 
 void MainWindow::on_actionPublish_triggered()
 {
-    QMessageBox::critical(this, "Not Implemented Yet", NOTIMPLEMENTEDTEXT);
+    /* Development direction:
+     *  Have a warning dialog pop up if no audio is bound to the entry. Give option to edit sermon where they could add files.
+     *  If audio is available, display a dialog listing the files, with total playback time (to ensure that they will fit on CD.)
+     *  - OR - do we want to do this check before we get this far, i.e. by disabling this action in MenuBar, etc.
+     */
 }
 
 void MainWindow::on_mainSermonTableView_doubleClicked(const QModelIndex &index)
@@ -148,4 +156,12 @@ void MainWindow::on_mainSermonTableView_doubleClicked(const QModelIndex &index)
     ui->mainSermonTableView->selectionModel()->reset();  //Added this to force custom delegates to repaint when they lose focus.
     EditSermon newwin(globalSettings, sermonTableModel, this, "", currentModelIndex); //Invoke Edit Sermon ui with current selected row from MainWindow as the current Sermon.
     newwin.exec();
+}
+
+void MainWindow::on_mainSermonTableView_clicked(const QModelIndex &index)
+{
+    //enable/disable certain actions based on available data.
+    // My mind is shutting down . . . How to get data from a specified column of a given row???
+    if (ui->mainSermonTableView->currentIndex())
+       ;
 }

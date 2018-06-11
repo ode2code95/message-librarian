@@ -46,7 +46,11 @@ private slots:
 
     void closeEvent(QCloseEvent *event);
 
+    void on_mainSermonTableView_clicked(const QModelIndex &index);
+
 private:
+    InitTableModelAndView();
+
     Ui::MainWindow *ui;
     QSettings *globalSettings;
     QSqlTableModel *sermonTableModel;

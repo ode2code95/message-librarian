@@ -1,13 +1,21 @@
 Beta Release 0.65
 -----------------
 
-Current Developement Goals before Release
+Current Developement Goals before Public Release
 -----------------------------------------
+(* items may be left out for early release to VIPs)
 
-2. Publishing CD from Sermon - this button will be unavailable if Sermon has no Audio Bindings
-3. Open Sermon dialog to preview audio. Will also have Publish function available from here, and some day Transcription controls as well. :)
-4. Publish feature will present choice between "open folder to view files" and "copy files to Windows CD-burning folder,"
-   after determining that the files are burnable audio - not project-specific files, etc.
+1. Publishing CD from Sermon - this button will be unavailable if Sermon has no Audio Bindings
+2. Open Sermon dialog to preview/play audio or view other files, in a read-only interface. Will also have Publish function available from here,
+   and some day Transcription controls as well. :)
+3. Publish feature will present choice between "open folder to view files" and "copy files to Windows CD-burning folder,"
+   after determining that the files are burnable audio - not project-specific files, etc. - (See new notes in MainWindow.cpp)
+4. Create a basic CSV import system for metadata tables that may exist in Excell already. (to help net existing large-library users)
+5. (*) Create a product key verification system w/ 30-day trial period - this will simply help to track version numbers and users
+6. (*) Build an installer - Nullsoft Scriptable Install System? Also checkout Qt for Windows - Deployment for info on shipping required DLLs
+7. (*) Custom application icon and splash screen - Open Bible w/ music notes and or Sermon CDs - this includes a CD label for production.
+   - possibly use screen-shot of Audacity audio track underneath Bible for icon, & CD laid on top of the Bible. Fade the edges of the audio track.
+     Fade the whole splash screen so that the Application Title & Version Number are clearly visible.
 
 
 Future Features
@@ -21,12 +29,16 @@ Optionally removes existing backup to save space.
 2. Detect when a storage device with audio files on the root directory is connected to the computer - for adding a sermon recorded directly to
 CD, thumb drive, or SD card.
 
-3. Editable Main Table - Will allow certain data to be editable from the main table, without opening the editor widget. Currently this is possible
+3. Add multiple sermon capability to Publish Sermon. This would include checking to make sure that additional sermons will fit.
+
+4. Add support for MP3 CDs (and how to determine capacity of them.)
+
+5. Editable Main Table - Will allow certain data to be editable from the main table, without opening the editor widget. Currently this is possible
 only through a double-click on the row of the data you want to change.
 
-4. Color-highlighting of matching phrases while search is in progress.
+6. Color-highlighting of matching phrases while search is in progress. Likely will require a reimplemented delegate for the searchable text data.
 
-5. Graph of topic coverage in the library.
+7. Graph of topic coverage in the library.
 
 
 Observed Caveats
@@ -35,6 +47,9 @@ Observed Caveats
 (This section lists small flaws and design inconsistencies that may be overlooked now but should be fixed in future releases.)
 
 1. It is not possible to change which files are paired to a sermon entry after they are initially copied to the database.
+    - Plan to address this with Edit Audio button in place of Browse button in Edit Sermon if audio is already paired.
+      This will open Windows File Explorer on temporary folder where files can be moved, renamed, deleted, or even edited
+      with an audio editor. When finished, modified files would be copied back to the database.
 2. The custom rendering delegate for the Audio Binding and Transcription columns does not properly lose focus when we open the editor widget.
 This appears to be a bug within Qt itself, and is only a minor asthetic issue - FIXED with _->selectionModel()->reset();
 
