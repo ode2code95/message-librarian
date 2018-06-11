@@ -13,8 +13,13 @@ bool SermonSortFilterProxyModel::filterAcceptsRow(int sourceRow,
   QHash<int, QRegExp>::const_iterator i;
 
   for (i = multiFilter.constBegin(); i != multiFilter.constEnd(); ++i) {
+      //skip the loop body this time because it already passes but continue validation if further search criteria exists.
+      if (i.value().isEmpty())
+          continue;
       QModelIndex mIndex = sourceModel()->index(sourceRow, i.key(), sourceParent);
       flag = flag && (sourceModel()->data(mIndex).toString().contains(QRegExp(i.value())));
+      if (!flag) //don't waste iterations if we already know that this row doesn't qualify.
+          return false;
   }
 
   QModelIndex dateModelIndex = sourceModel()->index(sourceRow, Sermon_Date, sourceParent);
@@ -23,8 +28,8 @@ bool SermonSortFilterProxyModel::filterAcceptsRow(int sourceRow,
 
 bool SermonSortFilterProxyModel::dateInRange(const QDate &date) const
 {
-  return (!minDate.isValid() || date > minDate)
-          && (!maxDate.isValid() || date < maxDate);
+  return (!minDate.isValid() || date >= minDate)
+          && (!maxDate.isValid() || date <= maxDate);
 }
 
 void SermonSortFilterProxyModel::setFilterMinimumDate(const QDate &date, bool invalFltr)
