@@ -58,3 +58,5 @@ Online Resources
 ----------------
 
 1. Thesaurus - https://www.archlinux.org/packages/extra/any/mythes-en/
+2. C# speach-to-text library: https://stackoverflow.com/questions/3958342/convert-audio-to-text
+3. CD burning API: https://stackoverflow.com/questions/82993/windows-cd-burning-api (also see Cached Web Pages for offline version.)

@@ -20,7 +20,8 @@ SOURCES += main.cpp\
     editsermon.cpp \
     statusindicatordelegate.cpp \
     findsermon.cpp \
-    sermonsortfilterproxymodel.cpp
+    sermonsortfilterproxymodel.cpp \
+    publishsermon.cpp
 
 HEADERS  += mainwindow.h \
     settingswindow.h \
@@ -28,12 +29,14 @@ HEADERS  += mainwindow.h \
     editsermon.h \
     statusindicatordelegate.h \
     findsermon.h \
-    sermonsortfilterproxymodel.h
+    sermonsortfilterproxymodel.h \
+    publishsermon.h
 
 FORMS    += mainwindow.ui \
     settingswindow.ui \
     editsermon.ui \
-    findsermon.ui
+    findsermon.ui \
+    publishsermon.ui
 
 DISTFILES += \
     Future_Developement_Notes.txt

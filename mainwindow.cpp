@@ -3,6 +3,7 @@
 #include "settingswindow.h"
 #include "editsermon.h"
 #include "findsermon.h"
+#include "publishsermon.h"
 
 #define ABOUTTEXT \
     "<i><b>Audio Sermon Organizer</b> © 2017 - 2018 by Stanley B. Gehman.</i><p>"\
@@ -60,6 +61,7 @@ MainWindow::InitTableModelAndView()
     ui->mainSermonTableView->setItemDelegateForColumn(Sermon_Transcription, new StatusIndicatorDelegate);   //Same here.
 
     ui->mainSermonTableView->selectRow(globalSettings->value("metadata/lastActiveSermon", "0").toInt());
+    on_mainSermonTableView_clicked(sermonTableModel->index(globalSettings->value("metadata/lastActiveSermon", "0").toInt(), 1)); //It is not necessary to know which column, as that is specified later.
 
     setCentralWidget(ui->mainSermonTableView);
 }
@@ -83,6 +85,7 @@ void MainWindow::SetCurrentModelIndex(QPersistentModelIndex *index)
 {
     currentModelIndex = index;
     ui->mainSermonTableView->selectRow(currentModelIndex->row());
+    on_mainSermonTableView_clicked(static_cast <QModelIndex> (*index)); //impressive cast operation!
 }
 
 void MainWindow::on_actionAbout_triggered()
@@ -145,8 +148,11 @@ void MainWindow::on_actionPublish_triggered()
     /* Development direction:
      *  Have a warning dialog pop up if no audio is bound to the entry. Give option to edit sermon where they could add files.
      *  If audio is available, display a dialog listing the files, with total playback time (to ensure that they will fit on CD.)
-     *  - OR - do we want to do this check before we get this far, i.e. by disabling this action in MenuBar, etc.
+     *  - OR - do we want to do this check before we get this far, i.e. by disabling this action in MenuBar, etc. <- Chosen solution, for the time being
      */
+    ui->mainSermonTableView->selectionModel()->reset();  //Added this to force custom delegates to repaint when they lose focus.
+    PublishSermon pubwin(globalSettings, sermonTableModel, currentModelIndex, this);
+    pubwin.exec();
 }
 
 void MainWindow::on_mainSermonTableView_doubleClicked(const QModelIndex &index)
@@ -160,8 +166,13 @@ void MainWindow::on_mainSermonTableView_doubleClicked(const QModelIndex &index)
 
 void MainWindow::on_mainSermonTableView_clicked(const QModelIndex &index)
 {
-    //enable/disable certain actions based on available data.
-    // My mind is shutting down . . . How to get data from a specified column of a given row???
-    if (ui->mainSermonTableView->currentIndex())
-       ;
+    /*
+     * enable/disable certain actions based on available data.
+     */
+
+    // Disable Publishing if no audio is available.
+    if (sermonTableModel->record(index.row()).field(Sermon_ID).isNull())
+       ui->actionPublish->setEnabled(false);
+    else
+        ui->actionPublish->setEnabled(true);
 }
