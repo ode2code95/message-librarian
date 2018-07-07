@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Audio Sermon Organizer</string>
+   <string>Message Librarian</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="QTableView" name="mainSermonTableView">

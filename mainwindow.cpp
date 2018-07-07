@@ -6,7 +6,7 @@
 #include "publishsermon.h"
 
 #define ABOUTTEXT \
-    "<i><b>Audio Sermon Organizer</b> © 2017 - 2018 by Stanley B. Gehman.</i><p>"\
+    "<i><b>Message Librarian</b> © 2016 - 2018 by Stanley B. Gehman.</i><p>"\
     "This software is intended to assist the organizational efforts of those "\
     "responsible to maintain audio sermon libraries. It is free of charge; however, "\
     "if you wish to contribute to the project either through code or financial "\
