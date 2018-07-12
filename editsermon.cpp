@@ -268,7 +268,7 @@ bool EditSermon::ValidateEntry() {
 
 void EditSermon::GenerateNewEntry() {
     qDebug("Creating entry and copying files . . .");
-    QString destDir = gsettings->value("paths/databaseLocation", "C:/Audio Sermon Database").toString();
+    QString destDir = gsettings->value("paths/databaseLocation", "C:/Audio Message Library").toString();
     QString UUID = QUuid::createUuid().toString();
     QDir objDestDir(destDir);
     objDestDir.mkdir(UUID);
@@ -289,13 +289,13 @@ void EditSermon::RemoveSermon(bool permanentlyDeleteFiles)
 
     //Delete files only if the entry is paired to some audio files
     if (!currentEntry.field(Sermon_ID).isNull()) {
-        QString sourceDir = gsettings->value("paths/databaseLocation", "C:/Audio Sermon Database").toString();
+        QString sourceDir = gsettings->value("paths/databaseLocation", "C:/Audio Message Library").toString();
         QString UUID = currentEntry.value(Sermon_ID).toString();
         QDir objSourceDir = (sourceDir + "/" + UUID);
 
         if (!permanentlyDeleteFiles) {
             //Back up the files to the default un-paired storage bin.
-            QString storageBinDir = gsettings->value("paths/unpairedStorage", gsettings->value("paths/databaseLocation", "C:/Audio Sermon Database").toString() + "/Unpaired Audio File Storage").toString();
+            QString storageBinDir = gsettings->value("paths/unpairedStorage", gsettings->value("paths/databaseLocation", "C:/Audio Message Library").toString() + "/Unpaired Audio File Storage").toString();
             QString thisBackupDirName = currentEntry.value(Sermon_Title).toString() + " - " +
                     currentEntry.value(Sermon_Speaker).toString() + " - " +
                     currentEntry.value(Sermon_Date).toString();
@@ -356,7 +356,7 @@ void EditSermon::UpdateAudioFileListing() {
     ui->importAudioFiles_readOnlyEdit->clear();
     if (!sermonTableModel->record(sermonDataMapper->currentIndex()).field(Sermon_ID).isNull()) {
         //The current database field does contain a valid UUID.
-        QString sourceDir = gsettings->value("paths/databaseLocation", "C:/Audio Sermon Database").toString();
+        QString sourceDir = gsettings->value("paths/databaseLocation", "C:/Audio Message Library").toString();
         QString UUID = sermonTableModel->record(sermonDataMapper->currentIndex()).value(Sermon_ID).toString();
         QDir objSourceDir = (sourceDir + "/" + UUID);
         QString fileName = "";

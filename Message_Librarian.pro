@@ -9,7 +9,7 @@ QT       += sql
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = Audio_Sermon_Organizer
+TARGET = Message_Librarian
 TEMPLATE = app
 
 

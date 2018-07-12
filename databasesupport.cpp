@@ -10,8 +10,8 @@ DatabaseSupport::DatabaseSupport()
 
 bool DatabaseSupport::InitDatabase()
 {
-    QSettings settings("Anabaptist Codeblocks Foundation", "Audio Sermon Organizer");
-    QString dbpath = settings.value("paths/databaseLocation", "C:/Audio Sermon Database").toString();
+    QSettings settings("TrueLife Tracks", "Message Librarian");
+    QString dbpath = settings.value("paths/databaseLocation", "C:/Audio Message Library").toString();
     if (!QDir(dbpath).exists()) {
         //The database path in settings does not exist. Display a message and ask the user what to do.
         int answer = QMessageBox::warning(0, "Error", "Your sermon library could not be found at the location specified in program settings. Do you want to initialze a new library at <i>" +

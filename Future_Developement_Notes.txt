@@ -60,3 +60,7 @@ Online Resources
 1. Thesaurus - https://www.archlinux.org/packages/extra/any/mythes-en/
 2. C# speach-to-text library: https://stackoverflow.com/questions/3958342/convert-audio-to-text
 3. CD burning API: https://stackoverflow.com/questions/82993/windows-cd-burning-api (also see Cached Web Pages for offline version.)
+4. Change ports for update server (HTTP): https://stackoverflow.com/questions/10829402/how-to-start-nginx-via-different-portother-than-80
+   - Will likely need this for permissions: https://serverfault.com/questions/566317/nginx-no-permission-to-bind-port-8090-but-it-binds-to-80-and-8080
+   - Use this to build the download page: https://www.theorycrafter.org/quipu/creating-a-simple-download-server-with-apache/
+     (This will require a username and password to login and get them.)

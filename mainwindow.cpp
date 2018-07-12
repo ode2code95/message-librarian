@@ -25,7 +25,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    globalSettings = new QSettings("Anabaptist Codeblocks Foundation", "Audio Sermon Organizer", this);
+    globalSettings = new QSettings("TrueLife Tracks", "Message Librarian", this);
     findwin = NULL;
 
     InitTableModelAndView();

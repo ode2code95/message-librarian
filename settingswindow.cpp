@@ -15,9 +15,9 @@ SettingsWindow::SettingsWindow(QSettings *settings, QWidget *parent) :
     ui(new Ui::SettingsWindow), gsettings(settings)
 {
     ui->setupUi(this);
-    ui->databaseLocation_lineEdit->setText(gsettings->value("paths/databaseLocation", "C:/Audio Sermon Database").toString());
+    ui->databaseLocation_lineEdit->setText(gsettings->value("paths/databaseLocation", "C:/Audio Message Library").toString());
     ui->importAudioFrom_lineEdit->setText(gsettings->value("paths/importFrom", "D:/").toString());
-    ui->unpairedStorage_lineEdit->setText(gsettings->value("paths/unpairedStorage", gsettings->value("paths/databaseLocation", "C:/Audio Sermon Database").toString() + "/Unpaired Audio File Storage").toString());
+    ui->unpairedStorage_lineEdit->setText(gsettings->value("paths/unpairedStorage", gsettings->value("paths/databaseLocation", "C:/Audio Message Library").toString() + "/Unpaired Audio File Storage").toString());
 }
 
 SettingsWindow::~SettingsWindow()
