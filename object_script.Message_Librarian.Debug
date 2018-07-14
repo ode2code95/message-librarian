@@ -1,0 +1,17 @@
+INPUT(
+./debug\main.o
+./debug\mainwindow.o
+./debug\settingswindow.o
+./debug\databasesupport.o
+./debug\editsermon.o
+./debug\statusindicatordelegate.o
+./debug\findsermon.o
+./debug\sermonsortfilterproxymodel.o
+./debug\publishsermon.o
+./debug\qrc_graphicsandsounds.o
+./debug\moc_mainwindow.o
+./debug\moc_settingswindow.o
+./debug\moc_editsermon.o
+./debug\moc_findsermon.o
+./debug\moc_publishsermon.o
+);

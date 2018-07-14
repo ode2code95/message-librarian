@@ -1,0 +1,17 @@
+INPUT(
+./release\main.o
+./release\mainwindow.o
+./release\settingswindow.o
+./release\databasesupport.o
+./release\editsermon.o
+./release\statusindicatordelegate.o
+./release\findsermon.o
+./release\sermonsortfilterproxymodel.o
+./release\publishsermon.o
+./release\qrc_graphicsandsounds.o
+./release\moc_mainwindow.o
+./release\moc_settingswindow.o
+./release\moc_editsermon.o
+./release\moc_findsermon.o
+./release\moc_publishsermon.o
+);
