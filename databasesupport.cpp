@@ -3,9 +3,16 @@
 
 #include <QDate>
 
+#define SQLTABLENAME \
+    "sermon"\
+
 DatabaseSupport::DatabaseSupport()
 {
+}
 
+QString DatabaseSupport::GetSQLTableName()
+{
+    return SQLTABLENAME;
 }
 
 bool DatabaseSupport::InitDatabase()
@@ -27,7 +34,7 @@ bool DatabaseSupport::InitDatabase()
     }
 
     QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
-    db.setDatabaseName(dbpath + "/Audio_Sermon_Database.db");
+    db.setDatabaseName(dbpath + "/Message_Library_Database.db");
     bool ok = db.open();
 
     if (!ok) {
@@ -41,7 +48,7 @@ bool DatabaseSupport::InitDatabase()
 bool DatabaseSupport::LoadDatabase()
 {
     QSqlTableModel model(0, QSqlDatabase::database());
-    model.setTable("sermon");
+    model.setTable(GetSQLTableName());
 
     if (model.lastError().type() != QSqlError::NoError) {
         int result = QMessageBox::warning(0, "Error", "Cannot load database. Error details: " + model.lastError().text() +
@@ -78,6 +85,6 @@ bool DatabaseSupport::CreateNewDatabase()
         return false;
     }
 
+    query.finish();
     return true;
 }
-

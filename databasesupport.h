@@ -22,12 +22,15 @@ enum {
 class DatabaseSupport
 {
 public:
-    DatabaseSupport();
-    bool InitDatabase();
-    bool LoadDatabase();
+    static QString GetSQLTableName();
+    static bool InitDatabase();
+    static bool LoadDatabase();
 
 private:
-    bool CreateNewDatabase();
+    //Made the constructor private because having an object of the database makes little sense,
+    //considering that we are working with only one database connection at a time.
+    DatabaseSupport();
+    static bool CreateNewDatabase();
 };
 
 #endif // DATABASESUPPORT_H

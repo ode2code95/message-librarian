@@ -4,6 +4,7 @@
 #include "editsermon.h"
 #include "findsermon.h"
 #include "publishsermon.h"
+#include "databasesupport.h"
 
 #define ABOUTTEXT \
     "<i><b>Message Librarian</b> © 2016 - 2018 by Stanley B. Gehman.</i><p>"\
@@ -17,8 +18,8 @@
     "Email: <b><u>sg.tla@emypeople.net</u></b> Phone: <b>(217) 254 - 4403</b>"\
 
 #define NOTIMPLEMENTEDTEXT \
-    "We're sorry, this feature is not available in this release."\
-    "Please stay tuned for further developements!"\
+    "We're sorry, this feature is not available in this release. "\
+    "Please stay tuned for available updates!"\
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -34,7 +35,7 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::InitTableModelAndView()
 {
     sermonTableModel = new QSqlTableModel(this, QSqlDatabase::database());
-    sermonTableModel->setTable("sermon");
+    sermonTableModel->setTable(DatabaseSupport::GetSQLTableName());
     sermonTableModel->setSort(Sermon_Date, Qt::AscendingOrder);
     sermonTableModel->select();
 
@@ -150,9 +151,13 @@ void MainWindow::on_actionPublish_triggered()
      *  If audio is available, display a dialog listing the files, with total playback time (to ensure that they will fit on CD.)
      *  - OR - do we want to do this check before we get this far, i.e. by disabling this action in MenuBar, etc. <- Chosen solution, for the time being
      */
-    ui->mainSermonTableView->selectionModel()->reset();  //Added this to force custom delegates to repaint when they lose focus.
-    PublishSermon pubwin(globalSettings, sermonTableModel, currentModelIndex, this);
-    pubwin.exec();
+
+    // Deprecate unfinished feature for alpha release to VIPs.
+    /* ui->mainSermonTableView->selectionModel()->reset();  //Added this to force custom delegates to repaint when they lose focus.
+     * PublishSermon pubwin(globalSettings, sermonTableModel, currentModelIndex, this);
+     * pubwin.exec();
+     */
+    QMessageBox::critical(this, "Not Implemented Yet", NOTIMPLEMENTEDTEXT);
 }
 
 void MainWindow::on_mainSermonTableView_doubleClicked(const QModelIndex &index)

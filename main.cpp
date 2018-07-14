@@ -7,12 +7,11 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
 
     //Create connection to database, abort on error
-    DatabaseSupport dbHandler;
 
-    if (!dbHandler.InitDatabase())
+    if (!DatabaseSupport::InitDatabase())
         return 1;
 
-    if (!dbHandler.LoadDatabase())
+    if (!DatabaseSupport::LoadDatabase())
         return 2;
 
     MainWindow w;
