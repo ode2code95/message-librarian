@@ -138,7 +138,7 @@ void EditSermon::on_pB_Browse_clicked()
 {
     QString defaultOpenFrom = gsettings->value("paths/importFrom", "D:/").toString();
     audioFileNames = QFileDialog::getOpenFileNames(this,
-          tr("Please select a sermon recording . . ."), defaultOpenFrom, tr("Audio Files (*.wav *.mp3)"));
+          tr("Please select a sermon recording . . ."), defaultOpenFrom, tr("Audio Files (*.wav *.mp3 *.wma)"));
     if (audioFileNames.isEmpty()) {
         return;
     }
