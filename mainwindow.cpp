@@ -32,10 +32,10 @@ MainWindow::MainWindow(QWidget *parent) :
     InitTableModelAndView();
 }
 
-MainWindow::InitTableModelAndView()
+void MainWindow::InitTableModelAndView()
 {
     sermonTableModel = new QSqlTableModel(this, QSqlDatabase::database());
-    sermonTableModel->setTable(DatabaseSupport::GetSQLTableName());
+    sermonTableModel->setTable(DatabaseSupport::GetCompatibleDBTableName());
     sermonTableModel->setSort(Sermon_Date, Qt::AscendingOrder);
     sermonTableModel->select();
 

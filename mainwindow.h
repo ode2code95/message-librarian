@@ -49,7 +49,7 @@ private slots:
     void on_mainSermonTableView_clicked(const QModelIndex &index);
 
 private:
-    InitTableModelAndView();
+    void InitTableModelAndView();
 
     Ui::MainWindow *ui;
     QSettings *globalSettings;
