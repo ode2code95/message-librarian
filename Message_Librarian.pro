@@ -12,6 +12,10 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = Message_Librarian
 TEMPLATE = app
 
+win32:VERSION = 0.8.6.5 # major.minor.patch.build
+  else:VERSION = 0.8.6  # major.minor.patch
+
+RC_ICONS = MsgLibIco_MultiRes.ico
 
 SOURCES += main.cpp\
         mainwindow.cpp \
