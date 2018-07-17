@@ -6,9 +6,13 @@
 #define COMPAT_DBTABLENAME \
     "Messages_Version_Alpha_1"\
 
+#define DB_FILENAME \
+    "Message_Library_Database.db"\
+
 int DatabaseSupport::compatibleVersion = -1;
 int DatabaseSupport::dbVersion = -1;
 QString DatabaseSupport::releaseDescription = "NULL";
+bool DatabaseSupport::skipVersionCheck = false;
 
 DatabaseSupport::DatabaseSupport()
 {
@@ -24,10 +28,24 @@ QString DatabaseSupport::GetCompatibleDBTableName()
     return COMPAT_DBTABLENAME;
 }
 
-bool DatabaseSupport::InitDatabase()
+/* Here we will eventually accept an optional path to a different library,
+ * such as for merging two libraries.
+ */
+bool DatabaseSupport::InitDatabase(bool initialSetup)
 {
     QSettings settings("TrueLife Tracks", "Message Librarian");
     QString dbpath = settings.value("paths/databaseLocation", "C:/Audio Message Library").toString();
+
+    if (initialSetup) {
+        if(!QDir(dbpath).mkpath(dbpath))
+            return false; //Error creating parent directory!
+
+        //open database
+        QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
+        db.setDatabaseName(dbpath + "/" + DB_FILENAME);
+        return db.open();
+    }
+
     if (!QDir(dbpath).exists()) {
         //The database path in settings does not exist. Display a message and ask the user what to do.
         int answer = QMessageBox::warning(0, "Error", "Your sermon library could not be found at the location specified in program settings. Do you want to initialze a new library at <i>" +
@@ -35,6 +53,7 @@ bool DatabaseSupport::InitDatabase()
                                         QMessageBox::Yes, QMessageBox::No, QMessageBox::NoButton);
         if (answer == QMessageBox::Yes) {
             qDebug("Creating default database directory . . .");
+            skipVersionCheck = true;
             if(!QDir(dbpath).mkpath(dbpath))
                 qDebug("Error creating parent directory!");
         }
@@ -43,7 +62,7 @@ bool DatabaseSupport::InitDatabase()
     }
 
     QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
-    db.setDatabaseName(dbpath + "/Message_Library_Database.db");
+    db.setDatabaseName(dbpath + "/" + DB_FILENAME);
     bool ok = db.open();
 
     if (!ok) {
@@ -54,8 +73,12 @@ bool DatabaseSupport::InitDatabase()
     return ok;
 }
 
-bool DatabaseSupport::LoadDatabase()
+bool DatabaseSupport::LoadDatabase(bool initialSetup)
 {
+    if (initialSetup) {
+        return CreateNewDatabase(false);
+    }
+
     QSqlTableModel model(0, QSqlDatabase::database());
     model.setTable(GetCompatibleDBTableName());
 
@@ -111,6 +134,14 @@ bool DatabaseSupport::CheckDatabaseVersion(QSqlDatabase curDB)
     return  true; // Version matches. Proceed with program loading.
 }
 
+void DatabaseSupport::CloseConnectionIfOpen()
+{
+    QSqlDatabase db = QSqlDatabase::database();
+    if (db.isOpen()) {
+        db.close();
+    }
+}
+
 int DatabaseSupport::GetCompatibleVersion()
 {
     return compatibleVersion;
@@ -126,7 +157,12 @@ QString DatabaseSupport::GetReleaseDescription()
     return releaseDescription;
 }
 
-bool DatabaseSupport::CreateNewDatabase()
+bool DatabaseSupport::GetSkipVersionCheck()
+{
+    return skipVersionCheck;
+}
+
+bool DatabaseSupport::CreateNewDatabase(bool showMessage)
 {
     QSqlQuery query("CREATE TABLE " + QString(COMPAT_DBTABLENAME) + " ("
                      "id VARCHAR(40),"
@@ -138,8 +174,10 @@ bool DatabaseSupport::CreateNewDatabase()
                      "transcription CLOB);", QSqlDatabase::database());
 
     if (!query.isActive()) {
-        QMessageBox::warning(0, "Error", "Cannot create new database. Error details: " +
-                             query.lastError().text() + "\n Please contact your support team for assistance.");
+        if (showMessage) {
+            QMessageBox::warning(0, "Error", "Cannot create new database. Error details: " +
+                                 query.lastError().text() + "\n Please contact your support team for assistance.");
+        }
         return false;
     }
 
@@ -165,6 +203,12 @@ QString DatabaseSupport::ExtractDatabaseVersion(QSqlDatabase db)
 
 bool DatabaseSupport::UpdateDatabase()
 {
+    /* Determine which set of update instructions to run.
+     * Then check the version number again, this time with Quiet option to avoid messages about still not being compatible.
+     * If we are still not compatible, run update again to apply the next patch.
+     * And so on, until either we run aground, or succeed!
+     */
+
     return true;
 }
 

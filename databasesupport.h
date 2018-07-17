@@ -23,10 +23,11 @@ class DatabaseSupport
 {
 public:
     static QString GetCompatibleDBTableName();
-    static bool InitDatabase();
-    static bool LoadDatabase();
+    static bool InitDatabase(bool initialSetup = false);
+    static bool LoadDatabase(bool initialSetup = false);
     static bool CheckDatabaseVersion(QSqlDatabase curDB = QSqlDatabase::database());
     static bool UpdateDatabase();
+    static bool GetSkipVersionCheck();
 
     //only temporarily public for testing!
     static bool RenameSQLTable(QString oldName, QString newName);
@@ -40,12 +41,13 @@ private:
     //Made the constructor private because having an object of the database makes little sense,
     //considering that we are working with only one database connection at a time.
     DatabaseSupport();
-    static bool CreateNewDatabase();
+    static bool CreateNewDatabase(bool showMessage = true);
     static QString ExtractDatabaseVersion(QSqlDatabase db);
     //static bool RenameSQLTable(QString oldName, QString newName);
     static int compatibleVersion;
     static int dbVersion;
     static QString releaseDescription;
+    static bool skipVersionCheck;
 };
 
 #endif // DATABASESUPPORT_H
