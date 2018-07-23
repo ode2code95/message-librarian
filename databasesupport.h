@@ -26,11 +26,9 @@ public:
     static bool InitDatabase(bool initialSetup = false);
     static bool LoadDatabase(bool initialSetup = false);
     static bool CheckDatabaseVersion(QSqlDatabase curDB = QSqlDatabase::database());
+    static void CloseConnectionIfOpen();
     static bool UpdateDatabase();
     static bool GetSkipVersionCheck();
-
-    //only temporarily public for testing!
-    static bool RenameSQLTable(QString oldName, QString newName);
 
     // You must call CheckVersionNumber before you can retreive the actual value;
     static int GetCompatibleVersion();
@@ -43,7 +41,7 @@ private:
     DatabaseSupport();
     static bool CreateNewDatabase(bool showMessage = true);
     static QString ExtractDatabaseVersion(QSqlDatabase db);
-    //static bool RenameSQLTable(QString oldName, QString newName);
+    static bool RenameSQLTable(QString oldName, QString newName);
     static int compatibleVersion;
     static int dbVersion;
     static QString releaseDescription;
