@@ -7,7 +7,7 @@
 
 SetCompressor /FINAL /SOLID lzma
 
-!include "WordFunc.nsh"
+!include "FileFunc.nsh"
 
 !ifdef HAVE_UPX
 !packhdr tmp.dat "upx\upx -9 tmp.dat"
@@ -65,15 +65,25 @@ Section "" ; This default section will always be executed!
   ; write uninstall strings
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\MessageLibrarian" "DisplayName" "Message Librarian (remove only)"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\MessageLibrarian" "UninstallString" '"$INSTDIR\messagelib-uninst.exe"'
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\MessageLibrarian" "DisplayIcon" '"$INSTDIR\bin\graphics\MsgLibIco_MultiRes.ico"'
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\MessageLibrarian" "Publisher" "TrueLife Tracks"
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\MessageLibrarian" "DisplayVersion" "${VERSION}"
 
-  CreateDirectory "$INSTDIR\bin"
+  CreateDirectory "$INSTDIR\bin\graphics"	; This recursively creates all non-existent directories, so we make both 'bin' and 'graphics' dirs here.
   SetOutPath $INSTDIR\bin
 
-  File /r /x *.exe ..\..\Deploy\*.*
-  File /oname=$(^Name).exe ..\..\Deploy\Message_Librarian.exe
+  File /r /x *.exe ..\..\Deploy\*.*	; Install all files except the EXE
+  File /oname=$(^Name).exe ..\..\Deploy\Message_Librarian.exe	; Install the EXE with version-tailored name
+  File /oname=graphics\MsgLibIco_MultiRes.ico ..\MsgLibIco_MultiRes.ico
 
   SetOutPath $INSTDIR
   File ..\License.txt
+
+  ${GetSize} "$INSTDIR" "/S=0K" $0 $1 $2   ; Finds the size of the installation (with default options).
+  IntFmt $3 "0x%08X" $0
+  WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\MessageLibrarian" "EstimatedSize" $3    ; Writes the size to the registry so that the uninstaller entry is accurate.
+  IntOp $4 $0 / 1024    ; Yields the number of MBs for a more concise output in the logs.
+  DetailPrint "Installed size is $4 MB."
 
   ; Check for existing installation; create database if it does not exist.
   ReadRegStr $0 HKU "Software\TrueLife Tracks\Message Librarian\paths" "databaseLocation"
@@ -93,7 +103,7 @@ SectionEnd
 
 ; Uninstaller
 
-UninstallText "This will completely remove $(^Name) from your computer. Press next to continue."
+UninstallText 'This will completely remove $(^Name) from your computer. Press "Uninstall" to continue.'
 UninstallIcon "${NSISDIR}\Contrib\Graphics\Icons\modern-uninstall.ico"
 
 Section "Uninstall"
@@ -134,8 +144,7 @@ Section "Uninstall"
     Goto CheckParentDir
   NoFilesFound:
     ;Remove $INSTDIR - Get parent directory first and switch to that.
-    StrCpy $R0 "$INSTDIR"
-    ${WordFind} "$R0" "\" "-2{*" $R0
+    ${GetParent} "$INSTDIR" $R0
     SetOutPath "$R0"
     RMDir /REBOOTOK "$INSTDIR"
 
@@ -145,7 +154,8 @@ Section "Uninstall"
 
   ; CheckRegKeys:
 
-  // What methods are others using to remove only our files ???
-  // Why are our registry keys in HKU not being read?
+  ; What methods are others using to remove only our files ??? - possible solution - Use another mechanism from IfFileExists to determine the existence of sub files. GetSize with adding file and folder count, then comparing with 0.
+  ; Why are our registry keys in HKU not being read?
+  ; Add check for existing version / compare version / abort on installed=newer. (in .onInit)
 
 SectionEnd

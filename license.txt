@@ -1,6 +1,6 @@
 End User License Agreement (EULA) for
 Message Librarian
-Version 0.85
+Version 0.86
 
 Common Public License version 1.0
 
