@@ -115,13 +115,18 @@ Section "Uninstall"
   ReadRegStr $1 HKU "Software\TrueLife Tracks\Message Librarian\paths" "databaseLocation"
   StrCmp $1 "" SkipRemoveLibrary
     ;Check for removal of actual audio message library itself!
-    MessageBox MB_YESNO|MB_ICONQUESTION 'Do you want to remove the audio message library at "$1" itself?$\nNOTE: This will also delete all the audio files that are part of the library!$\nClick No if you plan to reinstall a newer version.' /SD IDNO IDNO SkipRemoveLibrary
+    MessageBox MB_YESNO|MB_ICONQUESTION 'Do you want to remove the audio message library at "$1" itself?$\nNOTE: This will also delete all the audio files that are part of the library!$\nClick No if you plan to reinstall a newer version.' /SD IDNO IDNO Continue_1A
       DetailPrint "Shredding entire audio message library!"
       RMDir /r "$1"
       Goto Continue_1
   SkipRemoveLibrary:
+      ; Print this if we cannot find the library to remove it.
       DetailPrint 'SKIP: Remove message library. Could not find database at "$1".'
-  Continue_1:
+	  Goto Continue_1B
+  Continue_1A:
+      ; Print this if user opted not to remove the library.
+	  DetailPrint 'SKIP: Remove message library. User selected not to remove it.'
+  Continue_1B;
 
   ;Check for removal of registry entries.
   MessageBox MB_YESNO|MB_ICONQUESTION "Do you want to remove the settings for Message Librarian?$\nClick No if you plan to reinstall a newer version." /SD IDNO IDNO SkipRemoveSettings

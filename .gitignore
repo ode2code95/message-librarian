@@ -27,3 +27,5 @@ obj/
 [Rr]elease*/
 _ReSharper*/
 [Tt]est[Rr]esult*
+#Ignore dev backup data
+NSIS Installer Script/Registry backup/
