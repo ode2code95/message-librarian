@@ -34,7 +34,7 @@ InstallColors /windows ; or try: FF8080 000030
 XPStyle on
 
 InstallDir "$PROGRAMFILES\TrueLife Tracks\Message Librarian"
-InstallDirRegKey HKU "Software\TrueLife Tracks\Message Librarian" "InstallDir"
+InstallDirRegKey HKCU "Software\TrueLife Tracks\Message Librarian" "InstallDir"
 
 CheckBitmap "${NSISDIR}\Contrib\Graphics\Checks\modern.bmp"
 
@@ -60,7 +60,7 @@ Section "" ; This default section will always be executed!
 
   ; write reg info
   DetailPrint "Writing registry keys . . ."
-  WriteRegStr HKU "Software\TrueLife Tracks\Message Librarian" "InstallDir" "$INSTDIR"
+  WriteRegStr HKCU "Software\TrueLife Tracks\Message Librarian" "InstallDir" "$INSTDIR"
 
   ; write uninstall strings
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\MessageLibrarian" "DisplayName" "Message Librarian (remove only)"
@@ -86,7 +86,7 @@ Section "" ; This default section will always be executed!
   DetailPrint "Installed size is $4 MB."
 
   ; Check for existing installation; create database if it does not exist.
-  ReadRegStr $0 HKU "Software\TrueLife Tracks\Message Librarian\paths" "databaseLocation"
+  ReadRegStr $0 HKCU "Software\TrueLife Tracks\Message Librarian\paths" "databaseLocation"
   StrCmp $0 "" 0 SkipInitSetup
     DetailPrint "Performing initial database setup . . ."
     ExecWait '"$INSTDIR\bin\$(^Name).exe" -init-setup'
@@ -112,7 +112,7 @@ Section "Uninstall"
   DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\MessageLibrarian"
 
   ;Check for existence of audio message library
-  ReadRegStr $1 HKU "Software\TrueLife Tracks\Message Librarian\paths" "databaseLocation"
+  ReadRegStr $1 HKCU "Software\TrueLife Tracks\Message Librarian\paths" "databaseLocation"
   StrCmp $1 "" RemoveLibrary_Error
     ;Check for removal of actual audio message library itself!
     MessageBox MB_YESNO|MB_ICONQUESTION 'Do you want to remove the audio message library at "$1" itself?$\nNOTE: This will also delete all the audio files that are part of the library!$\nClick No if you plan to reinstall a newer version.' /SD IDNO IDNO RemoveLibrary_Skip
@@ -131,7 +131,7 @@ Section "Uninstall"
   ;Check for removal of registry entries.
   MessageBox MB_YESNO|MB_ICONQUESTION "Do you want to remove the settings for Message Librarian?$\nClick No if you plan to reinstall a newer version." /SD IDNO IDNO RemoveSettings_Skip
     DetailPrint "Removing application settings from system registry . . ."
-    DeleteRegKey HKU "Software\TrueLife Tracks\Message Librarian"
+    DeleteRegKey HKCU "Software\TrueLife Tracks\Message Librarian"
     IfErrors 0 RemoveSettings_Skip
       MessageBox MB_OK|MB_ICONEXCLAMATION "Error removing registry entries. Please contact tech support for assistance." IDOK 0
   RemoveSettings_Skip:
@@ -160,7 +160,7 @@ Section "Uninstall"
   ; CheckRegKeys:
 
   ; What methods are others using to remove only our files ??? - possible solution - Use another mechanism from IfFileExists to determine the existence of sub files. GetSize with adding file and folder count, then comparing with 0.
-  ; Why are our registry keys in HKU not being read?
+  ; Why are our registry keys in HKU not being read? --> FIXED !! Needed to use HKCU for HKey Current User (where application keys are by default.)
   ; Add check for existing version / compare version / abort on installed=newer. (in .onInit)
 
 SectionEnd
