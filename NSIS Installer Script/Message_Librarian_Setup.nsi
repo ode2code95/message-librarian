@@ -113,28 +113,28 @@ Section "Uninstall"
 
   ;Check for existence of audio message library
   ReadRegStr $1 HKU "Software\TrueLife Tracks\Message Librarian\paths" "databaseLocation"
-  StrCmp $1 "" SkipRemoveLibrary
+  StrCmp $1 "" RemoveLibrary_Error
     ;Check for removal of actual audio message library itself!
-    MessageBox MB_YESNO|MB_ICONQUESTION 'Do you want to remove the audio message library at "$1" itself?$\nNOTE: This will also delete all the audio files that are part of the library!$\nClick No if you plan to reinstall a newer version.' /SD IDNO IDNO Continue_1A
+    MessageBox MB_YESNO|MB_ICONQUESTION 'Do you want to remove the audio message library at "$1" itself?$\nNOTE: This will also delete all the audio files that are part of the library!$\nClick No if you plan to reinstall a newer version.' /SD IDNO IDNO RemoveLibrary_Skip
       DetailPrint "Shredding entire audio message library!"
       RMDir /r "$1"
-      Goto Continue_1
-  SkipRemoveLibrary:
+      Goto RemoveLibrary_Post
+  RemoveLibrary_Error:
       ; Print this if we cannot find the library to remove it.
       DetailPrint 'SKIP: Remove message library. Could not find database at "$1".'
-	  Goto Continue_1B
-  Continue_1A:
+	  Goto RemoveLibrary_Post
+  RemoveLibrary_Skip:
       ; Print this if user opted not to remove the library.
 	  DetailPrint 'SKIP: Remove message library. User selected not to remove it.'
-  Continue_1B;
+  RemoveLibrary_Post:
 
   ;Check for removal of registry entries.
-  MessageBox MB_YESNO|MB_ICONQUESTION "Do you want to remove the settings for Message Librarian?$\nClick No if you plan to reinstall a newer version." /SD IDNO IDNO SkipRemoveSettings
+  MessageBox MB_YESNO|MB_ICONQUESTION "Do you want to remove the settings for Message Librarian?$\nClick No if you plan to reinstall a newer version." /SD IDNO IDNO RemoveSettings_Skip
     DetailPrint "Removing application settings from system registry . . ."
     DeleteRegKey HKU "Software\TrueLife Tracks\Message Librarian"
-    IfErrors 0 SkipRemoveSettings
+    IfErrors 0 RemoveSettings_Skip
       MessageBox MB_OK|MB_ICONEXCLAMATION "Error removing registry entries. Please contact tech support for assistance." IDOK 0
-  SkipRemoveSettings:
+  RemoveSettings_Skip:
 
   ;Remove the rest of the program
   RMDir /r "$INSTDIR\bin"

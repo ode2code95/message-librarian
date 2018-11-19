@@ -29,3 +29,5 @@ _ReSharper*/
 [Tt]est[Rr]esult*
 #Ignore dev backup data
 NSIS Installer Script/Registry backup/
+#Ignore dev experiments
+NSIS Installer Script/Sandbox/
