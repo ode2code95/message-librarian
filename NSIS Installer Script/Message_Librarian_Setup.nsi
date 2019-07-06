@@ -8,6 +8,8 @@
 SetCompressor /FINAL /SOLID lzma
 
 !include "FileFunc.nsh"
+!include "StrFunc.nsh"
+${UnStrRep}
 
 !ifdef HAVE_UPX
 !packhdr tmp.dat "upx\upx -9 tmp.dat"
@@ -51,6 +53,7 @@ Page license
 Page directory
 Page instfiles
 
+; Eventually all the options boxes that pop up will be replaced with pages.
 UninstPage uninstConfirm
 UninstPage instfiles
 
@@ -94,6 +97,9 @@ Section "" ; This default section will always be executed!
   SkipInitSetup:
     DetailPrint 'SKIP: Create message library. One already exists at "$0".'
   Continue:
+  DetailPrint 'Creating desktop and Start Menu shortcuts.'
+  CreateShortCut "$SMPROGRAMS\Message Librarian.lnk" "$INSTDIR\bin\$(^Name).exe"
+  CreateShortCut "$DESKTOP\Message Librarian.lnk" "$INSTDIR\bin\$(^Name).exe"
   WriteUninstaller "messagelib-uninst.exe"
 
 SectionEnd
@@ -115,13 +121,17 @@ Section "Uninstall"
   ReadRegStr $1 HKCU "Software\TrueLife Tracks\Message Librarian\paths" "databaseLocation"
   StrCmp $1 "" RemoveLibrary_Error
     ;Check for removal of actual audio message library itself!
-    MessageBox MB_YESNO|MB_ICONQUESTION 'Do you want to remove the audio message library at "$1" itself?$\nNOTE: This will also delete all the audio files that are part of the library!$\nClick No if you plan to reinstall a newer version.' /SD IDNO IDNO RemoveLibrary_Skip
+	${UnStrRep} $2 "$1" "/" "\"
+    MessageBox MB_YESNO|MB_ICONQUESTION 'Do you want to remove the audio message library itself, at "$2"?$\nNOTE: This will also delete all the audio files that are part of the library!$\nClick No if you plan to reinstall a newer version.' /SD IDNO IDNO RemoveLibrary_Skip
       DetailPrint "Shredding entire audio message library!"
-      RMDir /r "$1"
+	  ClearErrors
+	  RMDir /r "$2"
+	  IfErrors 0 +2
+		MessageBox MB_OK|MB_ICONEXCLAMATION 'There was an error removing the sermon database directory at "$2". You will need to delete the files manually.'
       Goto RemoveLibrary_Post
   RemoveLibrary_Error:
       ; Print this if we cannot find the library to remove it.
-      DetailPrint 'SKIP: Remove message library. Could not find database at "$1".'
+      DetailPrint 'SKIP: Remove message library. Could not find database at "$2".'
 	  Goto RemoveLibrary_Post
   RemoveLibrary_Skip:
       ; Print this if user opted not to remove the library.
@@ -131,6 +141,7 @@ Section "Uninstall"
   ;Check for removal of registry entries.
   MessageBox MB_YESNO|MB_ICONQUESTION "Do you want to remove the settings for Message Librarian?$\nClick No if you plan to reinstall a newer version." /SD IDNO IDNO RemoveSettings_Skip
     DetailPrint "Removing application settings from system registry . . ."
+	ClearErrors ; Clear any existing errors, so that we know if a new error was thrown.
     DeleteRegKey HKCU "Software\TrueLife Tracks\Message Librarian"
     IfErrors 0 RemoveSettings_Skip
       MessageBox MB_OK|MB_ICONEXCLAMATION "Error removing registry entries. Please contact tech support for assistance." IDOK 0
@@ -145,22 +156,31 @@ Section "Uninstall"
   ;Remove the parent directory in $INSTDIR if there are no other programs from TrueLifeTracks installed
   ;This will also protect other files that were not intended to be removed by the uninstaller, in the event that other files are present.
   IfFileExists "$INSTDIR\*.*" 0 NoFilesFound
-    MessageBox MB_OK "Note: $INSTDIR will not be removed! Possible cause:$\nOther non-program files are still present." IDOK 0
+    MessageBox MB_OK 'Note: The folder "$INSTDIR" will not be removed! Possible cause:$\nOther non-program files are still present.' IDOK 0
     Goto CheckParentDir
   NoFilesFound:
     ;Remove $INSTDIR - Get parent directory first and switch to that.
     ${GetParent} "$INSTDIR" $R0
     SetOutPath "$R0"
-    RMDir /REBOOTOK "$INSTDIR"
+    RMDir /REBOOTOK "$INSTDIR" ; Is this even allowed? (It is not currently working.)
 
     ;IfFileExists "*.*" CheckRegKeys 0
     ;  RMDir "\" ; Do NOT use the /r switch here; very dangerous!
   CheckParentDir:
-
+	; Check for files in parent dir, and remove if none found.
+	Goto RemoveShortcuts
+  RemoveShortcuts:
+	DetailPrint 'Removing desktop and Start Menu shortcuts.'
+	Delete "$SMPROGRAMS\Message Librarian.lnk"
+	Delete "$DESKTOP\Message Librarian.lnk"
   ; CheckRegKeys:
 
-  ; What methods are others using to remove only our files ??? - possible solution - Use another mechanism from IfFileExists to determine the existence of sub files. GetSize with adding file and folder count, then comparing with 0.
+  ; Why is $INSTDIR and empty parent not removed from Program Files?
+  ;		- possible solution - Use another mechanism from IfFileExists to determine the existence of sub files. GetSize with adding file and folder count, then comparing with 0.
+  ;		- Also check paths for correct directory delimiters.
+  
   ; Why are our registry keys in HKU not being read? --> FIXED !! Needed to use HKCU for HKey Current User (where application keys are by default.)
   ; Add check for existing version / compare version / abort on installed=newer. (in .onInit)
+  ; Add TrueLife Tracks folder to Start Menu, with removal if all icons are gone.
 
 SectionEnd
