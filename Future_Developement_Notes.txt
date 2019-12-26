@@ -12,7 +12,8 @@ Current Developement Goals before Public Release
 4. Attachments column will allow access to non-audio external files through Edit Sermon/Open, same as we will do for editing the audio bindings.
 5. Create a basic CSV import system for metadata tables that may exist in Excell already. (to help net existing large-library users)
 6. (*) Create a product key verification system w/ 30-day trial period - this will simply help to track version numbers and users
-7. (*) Build an installer - Nullsoft Scriptable Install System? Also checkout Qt for Windows - Deployment for info on shipping required DLLs
+7. (*) DONE: Build an installer - Nullsoft Scriptable Install System? Also checkout Qt for Windows - Deployment for info on shipping required DLLs.
+   TODO: Add MIT license to installer.
 8. (*) Custom application icon and splash screen - Open Bible w/ music notes and or Sermon CDs - this includes a CD label for production.
    - possibly use screen-shot of Audacity audio track underneath Bible for icon, & CD laid on top of the Bible. Fade the edges of the audio track.
      Fade the whole splash screen so that the Application Title & Version Number are clearly visible.
@@ -20,7 +21,7 @@ Current Developement Goals before Public Release
 Updates And Releases
 --------------------
 
-(See notes in "Online Resources" section on update server.)
+(See notes in "Online Resources" section about update server.)
 1. HTTP update server that can update via ports 80, 443, AND various email ports, such as 143 or 465 (for email-only users)
 2. Onboard release notification system that informs user of specific features that have been modified in a new release.
    This may be simply a text file that loads in the upgrade/installer window.
@@ -56,8 +57,7 @@ Observed Caveats
     - Plan to address this with Edit Audio button in place of Browse button in Edit Sermon if audio is already paired.
       This will open Windows File Explorer on temporary folder where files can be moved, renamed, deleted, or even edited
       with an audio editor. When finished, modified files would be copied back to the database.
-2. The custom rendering delegate for the Audio Binding and Transcription columns does not properly lose focus when we open the editor widget.
-This appears to be a bug within Qt itself, and is only a minor asthetic issue - FIXED with _->selectionModel()->reset();
+2. FIXED: The custom rendering delegate for the Audio Binding and Transcription columns does not properly lose focus when we open the editor widget. This appears to be a bug within Qt itself, and is only a minor asthetic issue - FIXED with _->selectionModel()->reset();
 
 
 Online Resources
@@ -65,7 +65,7 @@ Online Resources
 
 1. Thesaurus - https://www.archlinux.org/packages/extra/any/mythes-en/
 2. C# speach-to-text library: https://stackoverflow.com/questions/3958342/convert-audio-to-text
-3. CD burning API: https://stackoverflow.com/questions/82993/windows-cd-burning-api (also see Cached Web Pages for offline version.)
+3. CD burning API: https://stackoverflow.com/questions/82993/windows-cd-burning-api
 4. Change ports for update server (HTTP): https://stackoverflow.com/questions/10829402/how-to-start-nginx-via-different-portother-than-80
    - Will likely need this for permissions: https://serverfault.com/questions/566317/nginx-no-permission-to-bind-port-8090-but-it-binds-to-80-and-8080
    - Use this to build the download page: https://www.theorycrafter.org/quipu/creating-a-simple-download-server-with-apache/
