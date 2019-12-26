@@ -7,15 +7,17 @@
 #include "databasesupport.h"
 
 #define ABOUTTEXT \
-    "<i><b>Message Librarian</b> © 2016 - 2018 by Stanley B. Gehman.</i><p>"\
+    "<i><b>Message Librarian</b> © 2016 - 2019 by Stanley B. Gehman.</i><p>"\
     "This software is intended to assist the organizational efforts of those "\
     "responsible to maintain audio sermon libraries. It is free of charge; however, "\
-    "if you wish to contribute to the project either through code or financial "\
-    "assistance, we do welcome your input. Due to the nature of free software, "\
-    "we do not provide any warranty, expressed or implied.<p>Tech support may be "\
-    "somewhat limited, but we encourage you to report bugs and request new "\
-    "features. We look forward to hearing from you.<p>Contact: <b>Stanley Gehman</b> "\
-    "Email: <b><u>sg.tla@emypeople.net</u></b> Phone: <b>(217) 254 - 4403</b>"\
+    "if you wish to contribute to the project either through code or by donations, "\
+    "we do welcome your input. Due to the nature of free software, we do not provide "\
+    "any warranty, expressed or implied.<p>Tech support may be somewhat limited, but "\
+    "we encourage you to report bugs and request new features. For more details, "\
+    "please see the README.md file included with the "\
+    "<a href="https://github.com/Stanley-G/message-librarian">source code on GitHub</a>. "\
+    "We look forward to hearing from you.<p>Contact: <b>Stanley Gehman</b> Email: "\
+    "<b><u>sg.tla@emypeople.net</u></b> Phone: <b>(217) 254 - 4403</b>"\
 
 #define NOTIMPLEMENTEDTEXT \
     "We're sorry, this feature is not available in this release. "\
